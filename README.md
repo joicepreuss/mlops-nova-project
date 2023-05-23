@@ -1,4 +1,26 @@
-# mlops_nova_project
+# MLOps Project
+
+Welcome! This is a repository for CI4O project ! 
+
+| Student Number | Student Names |
+|---|---|
+| 20220593 | Joice Preuss | 
+| 20220594 | Jaime Kuei | 
+| 20220595 | Maxwell Marcos | 
+| 20220630 | Jannik Kickler | 
+|  | Leo |
+
+## Contents
+This repository is organanized as follows:
+
+## How to configure the local environment for the project
+
+ ```
+python3 -m venv .mlops-env
+source .mlops-env/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+ ```
 
 ## Overview
 
