@@ -1,6 +1,6 @@
 # MLOps Project
 
-Welcome! This is a repository for CI4O project ! 
+Welcome! This is a repository for MLOps project ! 
 
 | Student Number | Student Names |
 |---|---|
