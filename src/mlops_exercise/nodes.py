@@ -103,9 +103,12 @@ def preprocess_data(X_train: pd.DataFrame, X_test: pd.DataFrame) -> Tuple[pd.Dat
     X_test = pd.DataFrame(preprocessor.transform(X_test).toarray(), 
                       columns=preprocessor.get_feature_names_out())
     
-    describe_to_dict_verified = X_train.describe().to_dict()
+    # Add prefix to column names, to analyse.
+    numerical_features = ["numerical__" + col for col in numerical_features]
     
-    logger.info(f"The final train dataframe has {len(X_train.columns)} columns.\n" +
+    describe_to_dict_verified = X_train[numerical_features].describe().to_dict()
+    
+    logger.info(f"The final train dataframe has {len(X_train.columns)} columns.\n"
                 f"The final test dataframe has {len(X_test.columns)} columns.")
 
     return X_train, X_test, describe_to_dict_verified
@@ -161,11 +164,13 @@ def model_train(X_train: pd.DataFrame,
     best_model = scores.loc[scores['test_score'].idxmax()]['regressor']
     best_model = models[best_model]
 
-    scores_to_dict = X_train.describe().to_dict()
+    scores_to_dict = scores.to_dict()
 
     log = logging.getLogger(__name__)
     log.info(scores)
-    log.info(f"Best model: {best_model} | Test score: {scores.loc[scores['test_score'].idxmax()]['test_score']}")
+    log.info(f"Best model: {best_model.__class__.__name__}\n" 
+             f"Test score: {scores.loc[scores['test_score'].idxmax()]['test_score']}\n" 
+             f"Parameters: {best_model.get_params()}")
     # log.info("Model accuracy on test set: %0.2f%%", accuracy * 100)
 
     return best_model, scores_to_dict
