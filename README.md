@@ -8,7 +8,7 @@ Welcome! This is a repository for MLOps project !
 | 20220594 | Jaime Kuei | 
 | 20220595 | Maxwell Marcos | 
 | 20220630 | Jannik Kickler | 
-|  | Leo |
+| 20220635 | Leonhard Allgaier |
 
 ## Contents
 This repository is organanized as follows:
