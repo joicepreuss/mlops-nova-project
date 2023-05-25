@@ -3,12 +3,60 @@
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://docs.kedro.org/en/stable/data/data_catalog.html
 
-abst_work_data:
+# Split data
+house_pricing_raw:
   type: pandas.CSVDataSet
-  filepath: data/01_raw/Absenteeism_at_work.csv
+  filepath: data/01_raw/house-pricing.csv
   load_args:
-    sep: ';'
+    sep: ','
 
-abst_work_cleaned_data:
+X_train_data:
   type: pandas.CSVDataSet
-  filepath: data/02_intermediate/Absenteeism_at_work_cleaned.csv
+  filepath: data/02_intermediate/X_train.csv
+
+y_train_data:
+  type: pandas.CSVDataSet
+  filepath: data/05_model_input/y_train.csv
+
+X_test_data:
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/X_test.csv
+
+y_test_data:
+  type: pandas.CSVDataSet
+  filepath: data/05_model_input/y_test.csv
+
+train_raw_describe:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: json.JSONDataSet
+    filepath: data/08_reporting/train_raw_describe.json
+
+
+# Preprocessing
+X_train_transformed:
+  type: pandas.CSVDataSet
+  filepath: data/05_model_input/X_train_transformed.csv
+
+X_test_transformed:
+  type: pandas.CSVDataSet
+  filepath: data/05_model_input/X_test_transformed.csv
+
+train_transformed_describe:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: json.JSONDataSet
+    filepath: data/08_reporting/train_transformed_describe.json
+
+# Model training
+test_model:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: pickle.PickleDataSet
+    filepath: data/06_models/trained_model.pkl
+
+scores_describe:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: json.JSONDataSet
+    filepath: data/08_reporting/scores_describe.json
