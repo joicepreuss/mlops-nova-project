@@ -1,0 +1,15 @@
+artifact_uri: file:///home/joicepreusscardoso/Documentos/MasterDegree/MLOps/mlops-exercise/mlops-exercise/mlruns/879614712313385132/3bd6dae3ee584ae6be982a4f1e12a30c/artifacts
+end_time: 1685036769148
+entry_point_name: ''
+experiment_id: '879614712313385132'
+lifecycle_stage: active
+run_id: 3bd6dae3ee584ae6be982a4f1e12a30c
+run_name: default
+run_uuid: 3bd6dae3ee584ae6be982a4f1e12a30c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685036768017
+status: 3
+tags: []
+user_id: jkick
