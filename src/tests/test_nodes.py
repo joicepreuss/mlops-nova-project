@@ -27,7 +27,7 @@ from src.mlops_exercise.nodes import split_data, preprocess_data, model_train
 
 dir = os.path.join(os.getcwd(),'src','tests','sample_data')
 
-# reading configuration experiment file
+# reading parameters file
 with open('conf/base/parameters.yml') as f:
     parameters = yaml.load(f, Loader=yaml.loader.SafeLoader)
 
@@ -45,6 +45,14 @@ def test_split_data_X_columns():
     df = pd.read_csv(os.path.join(dir,'house-pricing.csv'))
     X_train, X_test, y_train, y_test, describe_to_dict = split_data(df,parameters)
     assert X_train.shape[1] == X_test.shape[1]
+
+def test_preprocess_data_type():
+    df = pd.read_csv(os.path.join(dir,'house-pricing.csv'))
+    X_train, X_test, y_train, y_test, describe_to_dict = split_data(df,parameters)
+    X_train_t, X_test_t, _ = preprocess_data(X_train,X_test)
+    assert isinstance(X_train_t, pd.DataFrame) & isinstance(X_test_t, pd.DataFrame)
+    assert all(X_train_t.dtypes == X_train_t.dtypes)
+
 
 # @pytest.mark.slow
 # def test_clean_date_null():

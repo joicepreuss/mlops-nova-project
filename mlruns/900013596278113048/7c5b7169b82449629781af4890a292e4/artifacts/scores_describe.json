@@ -1,0 +1,11 @@
+{
+  "regressor": {
+    "0": "RandomForestRegressor"
+  },
+  "train_score": {
+    "0": 0.9
+  },
+  "test_score": {
+    "0": 0.83
+  }
+}

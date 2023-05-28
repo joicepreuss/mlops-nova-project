@@ -1,0 +1,12 @@
+test_fraction: 0.2
+random_state: 42
+target_column: "SalePrice"
+cols_with_only_nans : 
+  - "Alley"
+  - "FireplaceQu"
+  - "PoolQC"
+  - "Fence"
+  - "MiscFeature"
+associated_cols : 
+  - "PoolArea"
+  - "MiscVal"

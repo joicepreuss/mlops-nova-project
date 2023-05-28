@@ -54,6 +54,7 @@ test_model:
   data_set:
     type: pickle.PickleDataSet
     filepath: data/06_models/trained_model.pkl
+  versioned: true
 
 scores_describe:
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
