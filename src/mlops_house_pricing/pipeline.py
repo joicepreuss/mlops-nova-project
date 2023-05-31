@@ -7,9 +7,9 @@
 
 # from kedro.pipeline import Pipeline, node
 
-# from mlops_house_pricing.pipelines import data_modeling as dm
-# from mlops_house_pricing.pipelines import data_processing as dp
-# from mlops_house_pricing.data_quality.nodes import check_ranges
+from mlops_house_pricing.pipelines import data_modeling as dm
+from mlops_house_pricing.pipelines import data_processing as dp
+from mlops_house_pricing.data_quality.nodes import check_ranges
 
 
 # ###########################################################################
