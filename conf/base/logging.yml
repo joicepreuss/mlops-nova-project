@@ -30,7 +30,7 @@ loggers:
   kedro:
     level: INFO
 
-  mlops_exercise:
+  mlops_house_pricing:
     level: INFO
 
 root:

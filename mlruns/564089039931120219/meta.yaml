@@ -1,0 +1,6 @@
+artifact_location: file:///Users/maxwell.marcos/Documents/dev/mlops-nova-project/mlruns/564089039931120219
+creation_time: 1685527158903
+experiment_id: '564089039931120219'
+last_update_time: 1685527158903
+lifecycle_stage: active
+name: mlops_house_pricing

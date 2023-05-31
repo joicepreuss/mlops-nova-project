@@ -34,7 +34,7 @@ tracking:
     pipelines: []
 
   experiment:
-    name: mlops_exercise
+    name: mlops_house_pricing
     restore_if_deleted: True  # if the experiment`name` was previously deleted experiment, should we restore it?
 
   run:

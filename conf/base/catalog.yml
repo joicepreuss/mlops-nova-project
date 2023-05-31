@@ -57,7 +57,6 @@ test_model:
 
 scores_describe:
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
-  versioned: true
   data_set:
     type: json.JSONDataSet
     filepath: data/08_reporting/scores_describe.json

@@ -22,7 +22,7 @@ from kedro.config import ConfigLoader
 from kedro.framework.context import KedroContext
 from kedro.framework.hooks import _create_hook_manager
 
-from src.mlops_exercise.nodes import split_data, preprocess_data, model_train
+from src.mlops_house_pricing.nodes import split_data, preprocess_data, model_train
 
 
 dir = os.path.join(os.getcwd(),'src','tests','sample_data')

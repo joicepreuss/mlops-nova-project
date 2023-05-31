@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/maxwell.marcos/Documents/dev/mlops-nova-project/mlruns/564089039931120219/80e84675aa954ab79544f933031f9aa3/artifacts
+end_time: 1685527160778
+entry_point_name: ''
+experiment_id: '564089039931120219'
+lifecycle_stage: active
+run_id: 80e84675aa954ab79544f933031f9aa3
+run_name: default
+run_uuid: 80e84675aa954ab79544f933031f9aa3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685527159749
+status: 3
+tags: []
+user_id: maxwell.marcos

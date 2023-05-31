@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 entry_point = (
-    "mlops-exercise = mlops_exercise.__main__:main"
+    "mlops-exercise = mlops_house_pricing.__main__:main"
 )
 
 
@@ -17,7 +17,7 @@ with open("requirements.txt", encoding="utf-8") as f:
             requires.append(req)
 
 setup(
-    name="mlops_exercise",
+    name="mlops_house_pricing",
     version="0.1",
     packages=find_packages(exclude=["tests"]),
     entry_points={"console_scripts": [entry_point]},
