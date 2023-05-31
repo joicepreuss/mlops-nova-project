@@ -54,10 +54,10 @@ test_model:
   data_set:
     type: pickle.PickleDataSet
     filepath: data/06_models/trained_model.pkl
-  versioned: true
 
 scores_describe:
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  versioned: true
   data_set:
     type: json.JSONDataSet
     filepath: data/08_reporting/scores_describe.json
