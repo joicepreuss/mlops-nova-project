@@ -4,8 +4,6 @@ import logging
 from typing import Dict, Tuple, Any
 import great_expectations as ge
 
-import mlflow
-
 logger = logging.getLogger(__name__)
 
 def check_ranges(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[pd.DataFrame, Dict]:
