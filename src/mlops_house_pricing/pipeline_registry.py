@@ -20,9 +20,12 @@
 from typing import Dict
 from kedro.pipeline import Pipeline, pipeline
 
-from mlops_house_pricing.pipelines import data_modeling as dm
-from mlops_house_pricing.pipelines import data_processing as dp
-from mlops_house_pricing.data_quality.nodes import check_ranges
+from mlops_house_pricing.pipelines import data_split as ds
+from mlops_house_pricing.pipelines import data_cleaning as dc
+from mlops_house_pricing.pipelines import data_feat_engeneering as df
+from mlops_house_pricing.pipelines import model_train as dm
+from mlops_house_pricing.pipelines import model_predict as dpred
+#from mlops_house_pricing.data_quality.nodes import check_ranges
 
 
 def register_pipelines() -> Dict[str, Pipeline]:
@@ -31,16 +34,16 @@ def register_pipelines() -> Dict[str, Pipeline]:
     Returns:
         A mapping from a pipeline name to a ``Pipeline`` object.
     """
-    data_processing_pipeline = dp.create_pipeline()
-    data_modeling_pipeline = dm.create_pipeline()
+    split_pipe = ds.create_pipeline()
+    cleaning_pipe = dc.create_pipeline()
+    feature_eng_pipe = df.create_pipeline()
+    model_train_pipe = dm.create_pipeline()
+    model_predict_pipe = dpred.create_pipeline()
 
 
     return {
-        "preprocessing": preprocessing_stage,
-        "split_data": split_data_stage,
-        "train": train_stage,
-        "feature_selection": feature_selection_stage,
-        "predict": predict_stage,
-        "drift_test" : drift_test_stage, 
-        "_default_": preprocessing_stage + split_data_stage + train_stage
+        "predict": model_predict_pipe,
+        "train": split_pipe + cleaning_pipe + feature_eng_pipe + model_train_pipe,
+        "process": split_pipe + cleaning_pipe,
+        "_default_": split_pipe + cleaning_pipe + feature_eng_pipe + model_train_pipe + model_predict_pipe,
     }

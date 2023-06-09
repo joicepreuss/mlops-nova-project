@@ -11,17 +11,16 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
 import mlflow
+import pickle
 
 logger = logging.getLogger(__name__)
 
 
 def clean_data(X_train: pd.DataFrame, X_test: pd.DataFrame,
-                    parameters: Dict[str, Any]) -> Tuple[pd.DataFrame, Dict, Dict]:
-    """Clean and preprocesses data for modelling. 
+                    parameters: Dict[str, Any]) -> Tuple[pd.DataFrame, pd.DataFrame, Dict, pickle.Pickler]:
+    """Clean data. 
     - Cleans data by dropping columns with only NaNs and associated columns.
     - Imputes missing values with mean for numerical features and most frequent for categorical features.
-    - Applies a OneHotEncoder to categorical features.
-    - Scaling with RobustScaler for numerical features.
     
     Args:
     --
@@ -32,27 +31,9 @@ def clean_data(X_train: pd.DataFrame, X_test: pd.DataFrame,
     --
         X_train (pd.DataFrame): Trasnformed training features.
         X_test (pd.DataFrame): Transformed test features.
+        describe_transformers (Dict): Dictionary with statistics of the transformers.
+        preprocessor (pickle.Pickler): Preprocessor object.
     """
-
-def preprocess_data(X_train: pd.DataFrame, X_test: pd.DataFrame,
-                    parameters: Dict[str, Any]) -> Tuple[pd.DataFrame, Dict, Dict]:
-    """Clean and preprocesses data for modelling. 
-    - Cleans data by dropping columns with only NaNs and associated columns.
-    - Imputes missing values with mean for numerical features and most frequent for categorical features.
-    - Applies a OneHotEncoder to categorical features.
-    - Scaling with RobustScaler for numerical features.
-    
-    Args:
-    --
-        X_train (pd.DataFrame): Training features.
-        X_test (pd.DataFrame): Test features.
-
-    Returns:
-    --
-        X_train (pd.DataFrame): Trasnformed training features.
-        X_test (pd.DataFrame): Transformed test features.
-    """
-    
     # Drop columns with only NaNs and associated columns.
     cols_with_only_nans = parameters["cols_with_only_nans"]
     associated_cols = parameters["associated_cols"]
@@ -67,23 +48,24 @@ def preprocess_data(X_train: pd.DataFrame, X_test: pd.DataFrame,
     # Pipelines for numerical and categorical features.
     numerical_pipeline = Pipeline([
         ('imputer', SimpleImputer(strategy='mean')),
-        ('scaler', RobustScaler())
     ])
     categorical_pipeline = Pipeline([
         ('imputer', SimpleImputer(strategy='most_frequent')),
-        ('label', OneHotEncoder(handle_unknown='ignore'))
     ])
     # Combine numerical and categorical pipelines.
-    preprocessor = ColumnTransformer([
+    cleaning_preprocessor = ColumnTransformer([
         ('numerical', numerical_pipeline, numerical_features),
         ('categorical', categorical_pipeline, categorical_features)
     ])
 
-    X_train = preprocessor.fit_transform(X_train)
-    column_names = preprocessor.get_feature_names_out()
-    X_train = pd.DataFrame(X_train.toarray(), columns=column_names)
-    X_test = pd.DataFrame(preprocessor.transform(X_test).toarray(), 
-                      columns=preprocessor.get_feature_names_out())
+    X_train = cleaning_preprocessor.fit_transform(X_train)
+    column_names = cleaning_preprocessor.get_feature_names_out()
+    # X_train = pd.DataFrame(X_train.toarray(), columns=column_names)
+    X_train = pd.DataFrame(X_train, columns=column_names)
+    # X_test = pd.DataFrame(preprocessor.transform(X_test).toarray(), 
+    #                   columns=preprocessor.get_feature_names_out())
+    X_test = pd.DataFrame(cleaning_preprocessor.transform(X_test), 
+                      columns=cleaning_preprocessor.get_feature_names_out())
     
     # Add prefix to column names, to analyse.
     numerical_features = ["numerical__" + col for col in numerical_features]
@@ -93,4 +75,4 @@ def preprocess_data(X_train: pd.DataFrame, X_test: pd.DataFrame,
     logger.info(f"The final train dataframe has {len(X_train.columns)} columns.\n"
                 f"The final test dataframe has {len(X_test.columns)} columns.")
 
-    return X_train, X_test, describe_to_dict_verified
+    return X_train, X_test, describe_to_dict_verified, cleaning_preprocessor
