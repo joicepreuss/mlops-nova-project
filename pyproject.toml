@@ -1,5 +1,5 @@
 [tool.kedro]
-package_name = "mlops_exercise"
+package_name = "mlops_house_pricing"
 project_name = "mlops-exercise"
 kedro_init_version = "0.18.8"
 
@@ -9,7 +9,7 @@ profile = "black"
 [tool.pytest.ini_options]
 addopts = """
 --cov-report term-missing \
---cov src/mlops_exercise -ra"""
+--cov src/mlops_house_pricing -ra"""
 
 [tool.coverage.report]
 fail_under = 0

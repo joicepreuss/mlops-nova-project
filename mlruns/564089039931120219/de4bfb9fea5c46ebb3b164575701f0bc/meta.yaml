@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/maxwell.marcos/Documents/dev/mlops-nova-project/mlruns/564089039931120219/de4bfb9fea5c46ebb3b164575701f0bc/artifacts
+end_time: 1686319590801
+entry_point_name: ''
+experiment_id: '564089039931120219'
+lifecycle_stage: active
+run_id: de4bfb9fea5c46ebb3b164575701f0bc
+run_name: predict
+run_uuid: de4bfb9fea5c46ebb3b164575701f0bc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1686319590214
+status: 3
+tags: []
+user_id: maxwell.marcos
