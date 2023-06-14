@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-# mlops_exercise documentation build
+# mlops_house_pricing documentation build
 # configuration file, created by sphinx-quickstart.
 #
 # This file is execfile()d with the current directory set to its
@@ -21,11 +21,11 @@ import re
 
 from kedro.framework.cli.utils import find_stylesheets
 
-from mlops_exercise import __version__ as release
+from mlops_house_pricing import __version__ as release
 
 # -- Project information -----------------------------------------------------
 
-project = "mlops_exercise"
+project = "mlops_house_pricing"
 author = "Kedro"
 
 # The short X.Y version.
@@ -119,7 +119,7 @@ html_show_sourcelink = False
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "mlops_exercisedoc"
+htmlhelp_basename = "mlops_house_pricingdoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
@@ -147,8 +147,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "mlops_exercise.tex",
-        "mlops_exercise Documentation",
+        "mlops_house_pricing.tex",
+        "mlops_house_pricing Documentation",
         "Kedro",
         "manual",
     )
@@ -161,8 +161,8 @@ latex_documents = [
 man_pages = [
     (
         master_doc,
-        "mlops_exercise",
-        "mlops_exercise Documentation",
+        "mlops_house_pricing",
+        "mlops_house_pricing Documentation",
         [author],
         1,
     )
@@ -176,11 +176,11 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "mlops_exercise",
-        "mlops_exercise Documentation",
+        "mlops_house_pricing",
+        "mlops_house_pricing Documentation",
         author,
-        "mlops_exercise",
-        "Project mlops_exercise codebase.",
+        "mlops_house_pricing",
+        "Project mlops_house_pricing codebase.",
         "Data-Science",
     )
 ]

@@ -32,6 +32,26 @@ train_raw_describe:
     type: json.JSONDataSet
     filepath: data/08_reporting/train_raw_describe.json
 
+# Cleaning
+X_train_cleaned:
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/X_train_cleaned.csv
+
+X_test_cleaned:
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/X_test_cleaned.csv
+
+train_cleaned_describe:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: json.JSONDataSet
+    filepath: data/08_reporting/train_cleaned_describe.json
+
+cleaning_preprocessor:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: pickle.PickleDataSet
+    filepath: data/06_models/cleaning_preprocessor.pkl
 
 # Preprocessing
 X_train_transformed:
@@ -48,6 +68,12 @@ train_transformed_describe:
     type: json.JSONDataSet
     filepath: data/08_reporting/train_transformed_describe.json
 
+feat_eng_preprocessor:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: pickle.PickleDataSet
+    filepath: data/06_models/feat_eng_preprocessor.pkl
+
 # Model training
 test_model:
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
@@ -60,3 +86,18 @@ scores_describe:
   data_set:
     type: json.JSONDataSet
     filepath: data/08_reporting/scores_describe.json
+
+# Model inference
+X_to_predict:
+  type: pandas.CSVDataSet
+  filepath: data/03_primary/X_to_predict.csv
+
+df_with_predict:
+  type: pandas.CSVDataSet
+  filepath: data/07_model_output/df_with_predict.csv
+
+predict_describe:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: json.JSONDataSet
+    filepath: data/08_reporting/predict_describe.json

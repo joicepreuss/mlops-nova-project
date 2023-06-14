@@ -1,0 +1,9 @@
+cols_with_only_nans : 
+  - "Alley"
+  - "FireplaceQu"
+  - "PoolQC"
+  - "Fence"
+  - "MiscFeature"
+associated_cols : 
+  - "PoolArea"
+  - "MiscVal"
