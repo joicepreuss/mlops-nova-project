@@ -53,6 +53,8 @@ def test_preprocess_data_type():
     assert isinstance(X_train_t, pd.DataFrame) & isinstance(X_test_t, pd.DataFrame)
     assert all(X_train_t.dtypes == X_train_t.dtypes)
 
+# MORE TESTS TO INCLUDE #
+
 
 # @pytest.mark.slow
 # def test_clean_date_null():
