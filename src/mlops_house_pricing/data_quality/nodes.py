@@ -27,23 +27,30 @@ def check_ranges(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[pd.Data
     failed_expectations = [result for result in validation_results["results"] if not result["success"]]
     
     logger.info(
-        f"Total Expectations: {len(validation_results['results'])}"
-        f"Failed Expectations: {len(failed_expectations)}"
+        f"Ranges considered: {ranges}\n"
+        f"Total Expectations: {len(validation_results['results'])}\n"
+        f"Failed Expectations: {len(failed_expectations)}\n"
     )
     
     if failed_expectations:
         collect_errors = []
         for idx, failed_expectation in enumerate(failed_expectations, start=1):
             collect_errors.append(
-                f"\nFailed Expectation {idx}:"
+                f"  Failed Expectation {idx}:"
                 f"  Expectation Type: {failed_expectation['expectation_config']['expectation_type']}"
                 f"  Column: {failed_expectation['expectation_config']['kwargs']['column']}"
-                f"  Details: {failed_expectation['result']}")
+                f"  %Instances with errors: {failed_expectation['result']['unexpected_percent_total']}"
+                f"  Instances with errors: {failed_expectation['result']['partial_unexpected_list']}")
     
         raise Exception(
             f"Data Quality Validation Failed: {collect_errors}"
         )
    
     return df
+
+# MORE QUALITY TESTS HERE
+
+
+
 
 
