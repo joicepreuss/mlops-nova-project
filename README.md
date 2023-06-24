@@ -4,9 +4,9 @@ Welcome! This is a repository for MLOps project !
 
 | Student Number | Student Names |
 |---|---|
-| 20220593 | Joice Preuss | 
-| 20220594 | Jaime Kuei | 
-| 20220595 | Maxwell Marcos | 
+| 20220595 | Joice Cardoso | 
+| 20220593 | Jaime Kuei | 
+| 20220594 | Maxwell Marcos | 
 | 20220630 | Jannik Kickler | 
 | 20220635 | Leonhard Allgaier |
 
