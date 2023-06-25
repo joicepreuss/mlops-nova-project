@@ -59,8 +59,6 @@ def test_clean_data():
     assert 'B' not in X_train_clean.columns
     assert 'B' not in X_test_clean.columns
 
-    print('*'*15, X_train_clean.columns)
-
     # Check if the function imputed missing values correctly
     assert not X_train_clean['numerical__A'].isnull().any()
     assert not X_train_clean['categorical__C'].isnull().any()
