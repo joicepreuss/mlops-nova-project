@@ -5,8 +5,11 @@ import pandas as pd
 from src.mlops_house_pricing.pipelines.model_predict.nodes import model_predict
 
 def test_model_predict():
+    """
+    Test the model_predict function.
+    """
+
     # Create dummy data for testing
-    #X = pd.DataFrame({'feature1': [1, 2, 3], 'feature2': [4, 5, 6]})
     data = [
         ['1', '60', 'RL', '65', '8450', 'Pave', 'NA', 'Reg', 'Lvl', 'AllPub', 'Inside', 'Gtl', 'CollgCr', 'Norm', 'Norm', '1Fam', '2Story', '7', '5', '2003', '2003', 'Gable', 'CompShg', 'VinylSd', 'VinylSd', 'BrkFace', '196', 'Gd', 'TA', 'PConc', 'Gd', 'TA', 'No', 'GLQ', '706', 'Unf', '0', '150', '856', 'GasA', 'Ex', 'Y', 'SBrkr', '856', '854', '0', '1710', '1', '0', '2', '1', '3', '1', 'Gd', '8', 'Typ', '0', 'NA', 'Attchd', '2003', 'RFn', '2', '548', 'TA', 'TA', 'Y', '0', '61', '0', '0', '0', '0', 'NA', 'NA', 'NA', '0', '2', '2008', 'WD', 'Normal', '208500'],
         ['2', '20', 'RL', '80', '9600', 'Pave', 'NA', 'Reg', 'Lvl', 'AllPub', 'FR2', 'Gtl', 'Veenker', 'Feedr', 'Norm', '1Fam', '1Story', '6', '8', '1976', '1976', 'Gable', 'CompShg', 'MetalSd', 'MetalSd', 'None', '0', 'TA', 'TA', 'CBlock', 'Gd', 'TA', 'Gd', 'ALQ', '978', 'Unf', '0', '284', '1262', 'GasA', 'Ex', 'Y', 'SBrkr', '1262', '0', '0', '1262', '0', '1', '2', '0', '3', '1', 'TA', '6', 'Typ', '1', 'TA', 'Attchd', '1976', 'RFn', '2', '460', 'TA', 'TA', 'Y', '298', '0', '0', '0', '0', '0', 'NA', 'NA', 'NA', '0', '5', '2007', 'WD', 'Normal', '181500'],
@@ -30,7 +33,7 @@ def test_model_predict():
 
     X = pd.DataFrame(data, columns=columns)
 
-    # Create a fake pickle object
+    # Read a fake pickles
     with open("./src/tests/sample/cleaning_preprocessor.pkl", 'rb') as file:
         cleaning_preprocessor = pickle.load(file)
 
@@ -42,10 +45,17 @@ def test_model_predict():
 
     # Call the function to make predictions
     predictions, describe_servings = model_predict(X, cleaning_preprocessor, feat_eng_preprocessor, model)
-    # Assertions
-    assert isinstance(predictions, pd.DataFrame)
-    assert isinstance(describe_servings, dict)
+    
+    # Assert return is not None
     assert predictions is not None
     assert describe_servings is not None
+    
+    # Assert return type
+    assert isinstance(predictions, pd.DataFrame)
+    assert isinstance(describe_servings, dict)
+    
+    # Assert return size
     assert len(predictions) == len(X)
+    
+    # Assert return columns
     assert "y_pred" in predictions.columns

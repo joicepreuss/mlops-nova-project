@@ -1,29 +1,14 @@
-import os
-
 import pandas as pd
-import numpy as np
+
 from sklearn.compose import ColumnTransformer
-
-
-import pandas as pd
-import logging
-from typing import Dict, Tuple, Any
-import numpy as np  
-
-from sklearn.model_selection import train_test_split
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import RobustScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-
-import mlflow
-import pickle
-
-
 from src.mlops_house_pricing.pipelines.data_feat_engeneering.nodes import feature_engeneering
 
 def test_feature_engeneering():
+    """
+    Test the feature_engeneering function.
+    """
     
+    # Generate train data
     train_data = {
         'num_1': [1, 2, 3, 4, 5],
         'num_2' : [6, 7, 8, 9, 10],
@@ -41,12 +26,13 @@ def test_feature_engeneering():
     }
     X_test = pd.DataFrame(test_data)
     
+    # Expected columns
     expected_columns = ['numerical__num_1', 'numerical__num_2',
                         'categorical__cat_1_cat', 'categorical__cat_1_dog', 
                         'categorical__cat_1_mouse', 'categorical__cat_2_blue', 
                         'categorical__cat_2_green', 'categorical__cat_2_red']
     
-    #Call the feature_engeneering function
+    # Call feature_engeneering function
     X_train_transformed, X_test_transformed, describe, preprocessor = feature_engeneering(X_train, X_test)
     
     # Check the output types
@@ -59,8 +45,6 @@ def test_feature_engeneering():
     assert X_train_transformed.shape[0] == X_train.shape[0]
     assert X_test_transformed.shape[0] == X_test.shape[0]
     
-    # Check
+    # Check the transformed data columns
     assert list(X_train_transformed.columns) == expected_columns
     assert list(X_test_transformed.columns) == expected_columns
-
-# test_feature_engeneering()
