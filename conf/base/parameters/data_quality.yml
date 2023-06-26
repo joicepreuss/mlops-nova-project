@@ -4,7 +4,7 @@ num_quality_ranges :
 
 median_sales_price: 163000
 median_threshold: 0.10
-num_columns: 81
+num_columns: 74
 
 column_list:
 - Id
@@ -13,7 +13,6 @@ column_list:
 - LotFrontage
 - LotArea
 - Street
-- Alley
 - LotShape
 - LandContour
 - Utilities
@@ -64,7 +63,6 @@ column_list:
 - TotRmsAbvGrd
 - Functional
 - Fireplaces
-- FireplaceQu
 - GarageType
 - GarageYrBlt
 - GarageFinish
@@ -78,21 +76,12 @@ column_list:
 - EnclosedPorch
 - 3SsnPorch
 - ScreenPorch
-- PoolArea
-- PoolQC
-- Fence
-- MiscFeature
-- MiscVal
 - MoSold
 - YrSold
 - SaleType
 - SaleCondition
 
 categorical_unique_values:
-    Alley:
-  - ".nan"
-  - Grvl
-  - Pave
   BldgType:
   - 1Fam
   - 2fmCon
@@ -206,19 +195,6 @@ categorical_unique_values:
   - Stone
   - Other
   - CBlock
-  Fence:
-  - .nan
-  - MnPrv
-  - GdWo
-  - GdPrv
-  - MnWw
-  FireplaceQu:
-  - .nan
-  - TA
-  - Gd
-  - Fa
-  - Ex
-  - Po
   Foundation:
   - PConc
   - CBlock
@@ -320,12 +296,6 @@ categorical_unique_values:
   - Stone
   - BrkCmn
   - .nan
-  MiscFeature:
-  - .nan
-  - Shed
-  - Gar2
-  - Othr
-  - TenC
   Neighborhood:
   - CollgCr
   - Veenker
@@ -356,11 +326,6 @@ categorical_unique_values:
   - Y
   - N
   - P
-  PoolQC:
-  - .nan
-  - Ex
-  - Fa
-  - Gd
   RoofMatl:
   - CompShg
   - WdShngl
