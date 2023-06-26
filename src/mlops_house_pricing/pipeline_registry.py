@@ -55,5 +55,5 @@ def register_pipelines() -> Dict[str, Pipeline]:
         "train": split_pipe + cleaning_pipe + feature_eng_pipe + model_train_pipe,#check_ranges_after_scaling_pipe 
         #"model_selection" : split_pipe + cleaning_pipe + feature_eng_pipe + model_selection_pipe + hyperparameter_tuning_pipe,
         #"process": split_pipe + cleaning_pipe, Is it necessary?
-        "_default_": split_pipe + cleaning_pipe + feature_eng_pipe + model_train_pipe + model_predict_pipe,
+        "__default__": split_pipe + cleaning_pipe + feature_eng_pipe + model_train_pipe + model_predict_pipe,
     }
