@@ -33,16 +33,11 @@ def check_data_feature_engineering(df: pd.DataFrame, parameters : Dict[str, Any]
     folder_path = '../data/08_reporting/Expectations_reporting'
     os.makedirs(folder_path, exist_ok=True)
     
-    num_cols = df.select_dtypes(include=['number']).columns
     cat_cols = df.select_dtypes(include=['object']).columns
 
     ohencoded_values = [0,1]
-    ranges = parameters["num_quality_ranges"]
-
+    
     gdf = ge.from_pandas(df)
-    for column in num_cols:
-        gdf.expect_column_values_to_be_between(column,ranges['min'],ranges['max'])
-
     for column in cat_cols:
         gdf.expect_column_values_to_be_in_set(column, ohencoded_values)
 

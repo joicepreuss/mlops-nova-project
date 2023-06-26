@@ -50,20 +50,10 @@ def register_pipelines() -> Dict[str, Pipeline]:
     data_drift = data_drifts.create_pipeline('data_drift')
     data_drift_simulation = data_drifts.create_pipeline('simulate_data_drift')
 
-    # check_ranges_after_scaling_pipe = Pipeline(
-    #     [
-    #         node(
-    #             check_ranges,
-    #             inputs=["X_train_transformed","parameters"],
-    #             outputs=[]
-    #         )
-    #     ]
-    # )
-
     return {
         "predict": model_predict_pipe,
         "train": data_drift + split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_train_pipe,
-        "model_selection" : split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_selection_pipe,
-        #"process": split_pipe + cleaning_pipe, Is it necessary?
-        "__default__": split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_train_pipe + model_predict_pipe,
+        "simulate_drift": data_drift_simulation + split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_train_pipe,
+        "model_selection" : data_drift + split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_selection_pipe,
+        "__default__": data_drift + split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_train_pipe + model_predict_pipe,
     }

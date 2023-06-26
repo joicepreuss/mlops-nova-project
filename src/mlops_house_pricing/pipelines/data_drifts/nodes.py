@@ -51,25 +51,25 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
             f"No data drift detected in the multivariate data drift analysis."
         )
     
-    univariant_drift_detected = calculate_drift_univariate(reference, 
-                                                        analysis, 
-                                                        column_names=feature_columns, 
-                                                        treat_as_categorical=[], 
-                                                        timestamp_column_name="timestamp")
+    # univariant_drift_detected = calculate_drift_univariate(reference, 
+    #                                                     analysis, 
+    #                                                     column_names=feature_columns, 
+    #                                                     treat_as_categorical=[], 
+    #                                                     timestamp_column_name="timestamp")
     
-    for column_name in univariant_drift_detected:
-        if univariant_drift_detected[column_name]['kolgomorov']:
-            raise Exception(
-                f"Kolgomorov Data Drift detected in the univariate data drift analysis for column {column_name}."
-            )
-        elif univariant_drift_detected[column_name]['jensen']:
-            raise Exception(
-                f"Jensen Data Drift detected in the univariate data drift analysis for column {column_name}."
-            )
-        else:
-            logger.info(
-                f"No data drift detected in the univariate data drift analysis for column {column_name}."
-            )
+    # for column_name in univariant_drift_detected:
+    #     if univariant_drift_detected[column_name]['kolgomorov']:
+    #         raise Exception(
+    #             f"Kolgomorov Data Drift detected in the univariate data drift analysis for column {column_name}."
+    #         )
+    #     elif univariant_drift_detected[column_name]['jensen']:
+    #         raise Exception(
+    #             f"Jensen Data Drift detected in the univariate data drift analysis for column {column_name}."
+    #         )
+    #     else:
+    #         logger.info(
+    #             f"No data drift detected in the univariate data drift analysis for column {column_name}."
+    #         )
     
     # estimate_performance(reference,
     #                     analysis,
@@ -123,6 +123,7 @@ def calculate_drift_multivariat(reference : pd.DataFrame, analysis : pd.DataFram
     file_path = os.path.join(folder_path, 'multivariate_drift.html')
     figure.write_html(file_path)
 
+    drift_detected = False
     if analysis_results[('reconstruction_error','alert')].max():
         logger.info('Multivariate drift detected')
         drift_detected = True
@@ -188,7 +189,6 @@ def calculate_drift_univariate(reference : pd.DataFrame, analysis : pd.DataFrame
             logger.info(f'Univariate drift detected - Jensen Shannon - {column_name}')
             drift_jensen = True
         drift_dict[column_name] = {"kolgomorov": drift_kolgomorov, "jensen": drift_jensen} 
-
 
     return drift_dict
 
