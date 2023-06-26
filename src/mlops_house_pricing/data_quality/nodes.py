@@ -110,8 +110,6 @@ def check_data_cleaning(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[
     - Check if the categorical columns have the correct unique values.
     - Check if the numeric columns are within the correct range.
     - Check if the columns have null values.
-    - Check if the ID has only unique values.
-    - Check if the median of the SalePrice is within the threshold.
     - Check if the YearBuilt and YrSold are within the correct range.
 
     Afterwards save the validation results and raise an exception and save the errors, if any of the expectations fail.
@@ -136,10 +134,7 @@ def check_data_cleaning(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[
     num_columns = parameters["num_columns"]
     column_list = parameters["column_list"]
     cat_unique_values = parameters["categorical_unique_values"]
-    median_sales_price = parameters["median_sales_price"]
-    median_threshold = parameters["median_threshold"]
 
-    ranges = parameters["num_quality_ranges"]
     gdf = ge.from_pandas(df)
 
     gdf.expect_table_column_count_to_equal(num_columns)
@@ -148,18 +143,15 @@ def check_data_cleaning(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[
     check_dtype(gdf, cat_cols, dtype='object')
     check_categorical_unique_values(gdf, cat_unique_values)
     
-    gdf.expect_column_median_to_be_between("SalePrice", 
-                                           median_sales_price*(1-median_threshold), 
-                                           median_sales_price*(1+median_threshold))
     check_nulls(gdf, gdf.columns)
-    gdf.expect_column_values_to_be_unique("Id")
-    gdf.expect_column_max_to_be_between("YearBuilt", 1800, current_year)
-    gdf.expect_column_max_to_be_between("YrSold", 1950, current_year)
+    gdf.expect_column_max_to_be_between("numerical__YearBuilt", 1800, current_year)
+    gdf.expect_column_max_to_be_between("numerical__YrSold", 1950, current_year)
     
     # Create the validation results and save them in a json file.
     validation_results = gdf.validate()
     file_path_validation_results = os.path.join(folder_path, "Cleaned_data_validation_results.json")
-    validation_results.to_json_dict(file_path_validation_results)
+    with open(file_path_validation_results, 'w') as json_file:
+        json.dump(validation_results.to_json_dict(), json_file)
 
     failed_expectations = [result for result in validation_results["results"] if not result["success"]]
     
