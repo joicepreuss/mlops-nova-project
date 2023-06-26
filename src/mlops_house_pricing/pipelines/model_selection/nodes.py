@@ -20,23 +20,22 @@ def model_selection(X_train: pd.DataFrame,
                     X_test: pd.DataFrame, 
                     y_train: pd.DataFrame, 
                     y_test: pd.DataFrame,
-                    champion_dict: Dict[str, Any],
                     champion_model : pickle.Pickler,
+                    champion_dict: Dict[str, Any],
                     parameters: Dict[str, Any]):
-    """Trains a model on the given data and saves it to the given model path.
+    """Node for model selection.
 
     Args:
-    --
-        X_train (pd.DataFrame): Training features.
-        X_test (pd.DataFrame): Test features.
-        y_train (pd.DataFrame): Training target.
-        y_test (pd.DataFrame): Test target.
-        parameters (dict): Parameters defined in parameters.yml.
+        X_train: Training data.
+        X_test: Testing data.
+        y_train: Training target.
+        y_test: Testing target.
+        champion_dict: Dictionary with the champion model and its score.
+        champion_model: Champion model.
+        parameters: Parameters defined in parameters.yml.
 
     Returns:
-    --
-        models (dict): Dictionary of trained models.
-        scores (pd.DataFrame): Dataframe of model scores.
+        Dictionary with the best model and its score.
     """
    
     models_dict = {
@@ -73,7 +72,6 @@ def model_selection(X_train: pd.DataFrame,
         gridsearch = GridSearchCV(best_model, param_grid, cv=5, scoring='neg_mean_squared_error', n_jobs=-1)
         gridsearch.fit(X_train, y_train)
         best_model = gridsearch.best_estimator_
-
     # # Log all search results in MLFlow
     # for run_index in range(len(cv_results['params'])):
     #     with mlflow.start_run(experiment_id=experiment_id,run_name = str(run_index),nested=True):
@@ -95,9 +93,18 @@ def model_selection(X_train: pd.DataFrame,
     logger.info(f"Hypertunned model score: {-1 * gridsearch.best_score_}")
     pred_score = mean_squared_error(y_test, best_model.predict(X_test))
 
+    best_model_dict = {'model_name': best_model_name, 'test_score': pred_score}
     if champion_dict['test_score'] < pred_score:
-        logger.info(f"New champion model is {best_model_name} with score: {pred_score} vs {champion_dict['test_score']} ")
-        return best_model
+        logger.info(f"New champion model is {best_model_dict['model_name']} with score: {best_model_dict['test_score']} vs {champion_dict['test_score']} ")
+        return best_model, best_model_dict
     else:
         logger.info(f"Champion model is still {champion_dict['model_name']} with score: {champion_dict['test_score']} vs {pred_score} ")
-        return champion_model
+        return champion_model, champion_dict
+    
+# model_selection(pd.read_csv("/home/joicepreusscardoso/Documentos/MasterDegree/MLOps/mlops-nova-project/data/05_model_input/X_train_transformed.csv"),
+#                 pd.read_csv("/home/joicepreusscardoso/Documentos/MasterDegree/MLOps/mlops-nova-project/data/05_model_input/X_test_transformed.csv"),
+#                 pd.read_csv("/home/joicepreusscardoso/Documentos/MasterDegree/MLOps/mlops-nova-project/data/05_model_input/y_train.csv"),
+#                 pd.read_csv("/home/joicepreusscardoso/Documentos/MasterDegree/MLOps/mlops-nova-project/data/05_model_input/y_test.csv"),
+#                 champion_dict: Dict[str, Any],
+#                 champion_model : pickle.Pickler,
+#                 parameters: Dict[str, Any])

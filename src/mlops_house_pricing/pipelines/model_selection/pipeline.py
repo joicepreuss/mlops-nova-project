@@ -17,10 +17,10 @@ def create_pipeline(**kwargs) -> Pipeline:
                         "X_test_transformed",
                         "y_train_data",
                         "y_test_data",
-                        "production_model_metrics",
                         "production_model",
+                        "production_model_metrics",
                         "parameters"],
-                outputs="champion_model",
+                outputs=["champion_model", "champion_model_metrics"],
                 name="model_selection",
             ),
         ]
