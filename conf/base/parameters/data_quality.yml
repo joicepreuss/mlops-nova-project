@@ -124,7 +124,6 @@ categorical_unique_values:
   categorical_BsmtCond:
   - TA
   - Gd
-  - .nan
   - Fa
   - Po
   categorical_BsmtExposure:
@@ -132,19 +131,16 @@ categorical_unique_values:
   - Gd
   - Mn
   - Av
-  - .nan
   categorical_BsmtFinType1:
   - GLQ
   - ALQ
   - Unf
   - Rec
   - BLQ
-  - .nan
   - LwQ
   categorical_BsmtFinType2:
   - Unf
   - BLQ
-  - .nan
   - ALQ
   - Rec
   - LwQ
@@ -153,7 +149,6 @@ categorical_unique_values:
   - Gd
   - TA
   - Ex
-  - .nan
   - Fa
   categorical_CentralAir:
   - Y
@@ -183,7 +178,6 @@ categorical_unique_values:
   - FuseA
   - FuseP
   - Mix
-  - .nan
   categorical_ExterCond:
   - TA
   - Gd
@@ -246,7 +240,6 @@ categorical_unique_values:
   categorical_GarageCond:
   - TA
   - Fa
-  - .nan
   - Gd
   - Po
   - Ex
@@ -254,12 +247,10 @@ categorical_unique_values:
   - RFn
   - Unf
   - Fin
-  - .nan
   categorical_GarageQual:
   - TA
   - Fa
   - Gd
-  - .nan
   - Ex
   - Po
   categorical_GarageType:
@@ -267,7 +258,6 @@ categorical_unique_values:
   - Detchd
   - BuiltIn
   - CarPort
-  - .nan
   - Basment
   - 2Types
   categorical_Heating:
@@ -328,7 +318,6 @@ categorical_unique_values:
   - None
   - Stone
   - BrkCmn
-  - .nan
   categorical_Neighborhood:
   - CollgCr
   - Veenker
