@@ -99,5 +99,5 @@ def model_selection(X_train: pd.DataFrame,
         logger.info(f"New champion model is {best_model_name} with score: {pred_score} vs {champion_dict['test_score']} ")
         return best_model
     else:
-        logger.info(f"Champion model is still {champion_dict['model_name']} with score: {champion_dict['test_score']} vs {pred_score} ")
+        logger.info(f"Champion model is still {champion_dict['regressor']} with score: {champion_dict['test_score']} vs {pred_score} ")
         return champion_model
