@@ -52,8 +52,8 @@ def feature_engeneering(X_train: pd.DataFrame, X_test: pd.DataFrame) -> Tuple[pd
 
     X_train = feat_eng_preprocessor.fit_transform(X_train)
     column_names = feat_eng_preprocessor.get_feature_names_out()
-    X_train = pd.DataFrame(X_train.toarray(), columns=column_names)
-    X_test = pd.DataFrame(feat_eng_preprocessor.transform(X_test).toarray(), 
+    X_train = pd.DataFrame(X_train, columns=column_names)
+    X_test = pd.DataFrame(feat_eng_preprocessor.transform(X_test), 
                       columns=feat_eng_preprocessor.get_feature_names_out())
     
     # Add prefix to column names, to analyse.
