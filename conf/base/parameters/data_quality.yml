@@ -1,5 +1,5 @@
-num_quality_ranges :
-  max : 5
+num_quality_ranges:
+  max: 5
   min: -5
 
 median_sales_price: 163000
@@ -7,361 +7,383 @@ median_threshold: 0.10
 num_columns: 74
 
 column_list:
-- Id
-- MSSubClass
-- MSZoning
-- LotFrontage
-- LotArea
-- Street
-- LotShape
-- LandContour
-- Utilities
-- LotConfig
-- LandSlope
-- Neighborhood
-- Condition1
-- Condition2
-- BldgType
-- HouseStyle
-- OverallQual
-- OverallCond
-- YearBuilt
-- YearRemodAdd
-- RoofStyle
-- RoofMatl
-- Exterior1st
-- Exterior2nd
-- MasVnrType
-- MasVnrArea
-- ExterQual
-- ExterCond
-- Foundation
-- BsmtQual
-- BsmtCond
-- BsmtExposure
-- BsmtFinType1
-- BsmtFinSF1
-- BsmtFinType2
-- BsmtFinSF2
-- BsmtUnfSF
-- TotalBsmtSF
-- Heating
-- HeatingQC
-- CentralAir
-- Electrical
-- 1stFlrSF
-- 2ndFlrSF
-- LowQualFinSF
-- GrLivArea
-- BsmtFullBath
-- BsmtHalfBath
-- FullBath
-- HalfBath
-- BedroomAbvGr
-- KitchenAbvGr
-- KitchenQual
-- TotRmsAbvGrd
-- Functional
-- Fireplaces
-- GarageType
-- GarageYrBlt
-- GarageFinish
-- GarageCars
-- GarageArea
-- GarageQual
-- GarageCond
-- PavedDrive
-- WoodDeckSF
-- OpenPorchSF
-- EnclosedPorch
-- 3SsnPorch
-- ScreenPorch
-- MoSold
-- YrSold
-- SaleType
-- SaleCondition
+ - "numerical__MSSubClass"
+ - "numerical__LotFrontage"
+ - "numerical__LotArea"
+ - "numerical__OverallQual"
+ - "numerical__OverallCond"
+ - "numerical__YearBuilt"
+ - "numerical__YearRemodAdd"
+ - "numerical__MasVnrArea"
+ - "numerical__BsmtFinSF1"
+ - "numerical__BsmtFinSF2"
+ - "numerical__BsmtUnfSF"
+ - "numerical__TotalBsmtSF"
+ - "numerical__1stFlrSF"
+ - "numerical__2ndFlrSF"
+ - "numerical__LowQualFinSF"
+ - "numerical__GrLivArea"
+ - "numerical__BsmtFullBath"
+ - "numerical__BsmtHalfBath"
+ - "numerical__FullBath"
+ - "numerical__HalfBath"
+ - "numerical__BedroomAbvGr"
+ - "numerical__KitchenAbvGr"
+ - "numerical__TotRmsAbvGrd"
+ - "numerical__Fireplaces"
+ - "numerical__GarageYrBlt"
+ - "numerical__GarageCars"
+ - "numerical__GarageArea"
+ - "numerical__WoodDeckSF"
+ - "numerical__OpenPorchSF"
+ - "numerical__EnclosedPorch"
+ - "numerical__3SsnPorch"
+ - "numerical__ScreenPorch"
+ - "numerical__MoSold"
+ - "numerical__YrSold"
+ - "numerical__MSSubClass"
+ - "numerical__LotFrontage"
+ - "numerical__LotArea"
+ - "numerical__OverallQual"
+ - "numerical__OverallCond"
+ - "numerical__YearBuilt"
+ - "numerical__YearRemodAdd"
+ - "numerical__MasVnrArea"
+ - "numerical__BsmtFinSF1"
+ - "numerical__BsmtFinSF2"
+ - "numerical__BsmtUnfSF"
+ - "numerical__TotalBsmtSF"
+ - "numerical__1stFlrSF"
+ - "numerical__2ndFlrSF"
+ - "numerical__LowQualFinSF"
+ - "numerical__GrLivArea"
+ - "numerical__BsmtFullBath"
+ - "numerical__BsmtHalfBath"
+ - "numerical__FullBath"
+ - "numerical__HalfBath"
+ - "numerical__BedroomAbvGr"
+ - "numerical__KitchenAbvGr"
+ - "numerical__TotRmsAbvGrd"
+ - "numerical__Fireplaces"
+ - "numerical__GarageYrBlt"
+ - "numerical__GarageCars"
+ - "numerical__GarageArea"
+ - "numerical__WoodDeckSF"
+ - "numerical__OpenPorchSF"
+ - "numerical__EnclosedPorch"
+ - "numerical__3SsnPorch"
+ - "numerical__ScreenPorch"
+ - "numerical__MoSold"
+ - "numerical__YrSold"
+ - "categorical__MSZoning"
+ - "categorical__Street"
+ - "categorical__LotShape"
+ - "categorical__LandContour"
+ - "categorical__Utilities"
+ - "categorical__LotConfig"
+ - "categorical__LandSlope"
+ - "categorical__Neighborhood"
+ - "categorical__Condition1"
+ - "categorical__Condition2"
+ - "categorical__BldgType"
+ - "categorical__HouseStyle"
+ - "categorical__RoofStyle"
+ - "categorical__RoofMatl"
+ - "categorical__Exterior1st"
+ - "categorical__Exterior2nd"
+ - "categorical__MasVnrType"
+ - "categorical__ExterQual"
+ - "categorical__ExterCond"
+ - "categorical__Foundation"
+ - "categorical__BsmtQual"
+ - "categorical__BsmtCond"
+ - "categorical__BsmtExposure"
+ - "categorical__BsmtFinType1"
+ - "categorical__BsmtFinType2"
+ - "categorical__Heating"
+ - "categorical__HeatingQC"
+ - "categorical__CentralAir"
+ - "categorical__Electrical"
+ - "categorical__KitchenQual"
+ - "categorical__Functional"
+ - "categorical__GarageType"
+ - "categorical__GarageFinish"
+ - "categorical__GarageQual"
+ - "categorical__GarageCond"
+ - "categorical__PavedDrive"
+ - "categorical__SaleType"
+ - "categorical__SaleCondition"
 
 categorical_unique_values:
-  BldgType:
-  - 1Fam
-  - 2fmCon
-  - Duplex
-  - TwnhsE
-  - Twnhs
-  BsmtCond:
-  - TA
-  - Gd
-  - .nan
-  - Fa
-  - Po
-  BsmtExposure:
-  - 'No'
-  - Gd
-  - Mn
-  - Av
-  - .nan
-  BsmtFinType1:
-  - GLQ
-  - ALQ
-  - Unf
-  - Rec
-  - BLQ
-  - .nan
-  - LwQ
-  BsmtFinType2:
-  - Unf
-  - BLQ
-  - .nan
-  - ALQ
-  - Rec
-  - LwQ
-  - GLQ
-  BsmtQual:
-  - Gd
-  - TA
-  - Ex
-  - .nan
-  - Fa
-  CentralAir:
-  - Y
-  - N
-  Condition1:
-  - Norm
-  - Feedr
-  - PosN
-  - Artery
-  - RRAe
-  - RRNn
-  - RRAn
-  - PosA
-  - RRNe
-  Condition2:
-  - Norm
-  - Artery
-  - RRNn
-  - Feedr
-  - PosN
-  - PosA
-  - RRAn
-  - RRAe
-  Electrical:
-  - SBrkr
-  - FuseF
-  - FuseA
-  - FuseP
-  - Mix
-  - .nan
-  ExterCond:
-  - TA
-  - Gd
-  - Fa
-  - Po
-  - Ex
-  ExterQual:
-  - Gd
-  - TA
-  - Ex
-  - Fa
-  Exterior1st:
-  - VinylSd
-  - MetalSd
-  - Wd Sdng
-  - HdBoard
-  - BrkFace
-  - WdShing
-  - CemntBd
-  - Plywood
-  - AsbShng
-  - Stucco
-  - BrkComm
-  - AsphShn
-  - Stone
-  - ImStucc
-  - CBlock
-  Exterior2nd:
-  - VinylSd
-  - MetalSd
-  - Wd Shng
-  - HdBoard
-  - Plywood
-  - Wd Sdng
-  - CmentBd
-  - BrkFace
-  - Stucco
-  - AsbShng
-  - Brk Cmn
-  - ImStucc
-  - AsphShn
-  - Stone
-  - Other
-  - CBlock
-  Foundation:
-  - PConc
-  - CBlock
-  - BrkTil
-  - Wood
-  - Slab
-  - Stone
-  Functional:
-  - Typ
-  - Min1
-  - Maj1
-  - Min2
-  - Mod
-  - Maj2
-  - Sev
-  GarageCond:
-  - TA
-  - Fa
-  - .nan
-  - Gd
-  - Po
-  - Ex
-  GarageFinish:
-  - RFn
-  - Unf
-  - Fin
-  - .nan
-  GarageQual:
-  - TA
-  - Fa
-  - Gd
-  - .nan
-  - Ex
-  - Po
-  GarageType:
-  - Attchd
-  - Detchd
-  - BuiltIn
-  - CarPort
-  - .nan
-  - Basment
-  - 2Types
-  Heating:
-  - GasA
-  - GasW
-  - Grav
-  - Wall
-  - OthW
-  - Floor
-  HeatingQC:
-  - Ex
-  - Gd
-  - TA
-  - Fa
-  - Po
-  HouseStyle:
-  - 2Story
-  - 1Story
-  - 1.5Fin
-  - 1.5Unf
-  - SFoyer
-  - SLvl
-  - 2.5Unf
-  - 2.5Fin
-  KitchenQual:
-  - Gd
-  - TA
-  - Ex
-  - Fa
-  LandContour:
-  - Lvl
-  - Bnk
-  - Low
-  - HLS
-  LandSlope:
-  - Gtl
-  - Mod
-  - Sev
-  LotConfig:
-  - Inside
-  - FR2
-  - Corner
-  - CulDSac
-  - FR3
-  LotShape:
-  - Reg
-  - IR1
-  - IR2
-  - IR3
-  MSZoning:
-  - RL
-  - RM
-  - C (all)
-  - FV
-  - RH
-  MasVnrType:
-  - BrkFace
-  - None
-  - Stone
-  - BrkCmn
-  - .nan
-  Neighborhood:
-  - CollgCr
-  - Veenker
-  - Crawfor
-  - NoRidge
-  - Mitchel
-  - Somerst
-  - NWAmes
-  - OldTown
-  - BrkSide
-  - Sawyer
-  - NridgHt
-  - NAmes
-  - SawyerW
-  - IDOTRR
-  - MeadowV
-  - Edwards
-  - Timber
-  - Gilbert
-  - StoneBr
-  - ClearCr
-  - NPkVill
-  - Blmngtn
-  - BrDale
-  - SWISU
-  - Blueste
-  PavedDrive:
-  - Y
-  - N
-  - P
-  RoofMatl:
-  - CompShg
-  - WdShngl
-  - Metal
-  - WdShake
-  - Membran
-  - Tar&Grv
-  - Roll
-  - ClyTile
-  RoofStyle:
-  - Gable
-  - Hip
-  - Gambrel
-  - Mansard
-  - Flat
-  - Shed
-  SaleCondition:
-  - Normal
-  - Abnorml
-  - Partial
-  - AdjLand
-  - Alloca
-  - Family
-  SaleType:
-  - WD
-  - New
-  - COD
-  - ConLD
-  - ConLI
-  - CWD
-  - ConLw
-  - Con
-  - Oth
-  Street:
-  - Pave
-  - Grvl
-  Utilities:
-  - AllPub
-  - NoSeWa
+  categorical_BldgType:
+    - "1Fam"
+    - "2fmCon"
+    - "Duplex"
+    - "TwnhsE"
+    - "Twnhs"
+  categorical_BsmtCond:
+    - "TA"
+    - "Gd"
+    - "Fa"
+    - "Po"
+  categorical_BsmtExposure:
+    - "'No'"
+    - "Gd"
+    - "Mn"
+    - "Av"
+  categorical_BsmtFinType1:
+    - "GLQ"
+    - "ALQ"
+    - "Unf"
+    - "Rec"
+    - "BLQ"
+    - "LwQ"
+  categorical_BsmtFinType2:
+    - "Unf"
+    - "BLQ"
+    - "ALQ"
+    - "Rec"
+    - "LwQ"
+    - "GLQ"
+  categorical_BsmtQual:
+    - "Gd"
+    - "TA"
+    - "Ex"
+    - "Fa"
+  categorical_CentralAir:
+    - "Y"
+    - "N"
+  categorical_Condition1:
+    - "Norm"
+    - "Feedr"
+    - "PosN"
+    - "Artery"
+    - "RRAe"
+    - "RRNn"
+    - "RRAn"
+    - "PosA"
+    - "RRNe"
+  categorical_Condition2:
+    - "Norm"
+    - "Artery"
+    - "RRNn"
+    - "Feedr"
+    - "PosN"
+    - "PosA"
+    - "RRAn"
+    - "RRAe"
+  categorical_Electrical:
+    - "SBrkr"
+    - "FuseF"
+    - "FuseA"
+    - "FuseP"
+    - "Mix"
+  categorical_ExterCond:
+    - "TA"
+    - "Gd"
+    - "Fa"
+    - "Po"
+    - "Ex"
+  categorical_ExterQual:
+    - "Gd"
+    - "TA"
+    - "Ex"
+    - "Fa"
+  categorical_Exterior1st:
+    - "VinylSd"
+    - "MetalSd"
+    - "Wd Sdng"
+    - "HdBoard"
+    - "BrkFace"
+    - "WdShing"
+    - "CemntBd"
+    - "Plywood"
+    - "AsbShng"
+    - "Stucco"
+    - "BrkComm"
+    - "AsphShn"
+    - "Stone"
+    - "ImStucc"
+    - "CBlock"
+  categorical_Exterior2nd:
+    - "VinylSd"
+    - "MetalSd"
+    - "Wd Shng"
+    - "HdBoard"
+    - "Plywood"
+    - "Wd Sdng"
+    - "CmentBd"
+    - "BrkFace"
+    - "Stucco"
+    - "AsbShng"
+    - "Brk Cmn"
+    - "ImStucc"
+    - "AsphShn"
+    - "Stone"
+    - "Other"
+    - "CBlock"
+  categorical_Foundation:
+    - "PConc"
+    - "CBlock"
+    - "BrkTil"
+    - "Wood"
+    - "Slab"
+    - "Stone"
+  categorical_Functional:
+    - "Typ"
+    - "Min1"
+    - "Maj1"
+    - "Min2"
+    - "Mod"
+    - "Maj2"
+    - "Sev"
+  categorical_GarageCond:
+    - "TA"
+    - "Fa"
+    - "Gd"
+    - "Po"
+    - "Ex"
+  categorical_GarageFinish:
+    - "RFn"
+    - "Unf"
+    - "Fin"
+  categorical_GarageQual:
+    - "TA"
+    - "Fa"
+    - "Gd"
+    - "Ex"
+    - "Po"
+  categorical_GarageType:
+    - "Attchd"
+    - "Detchd"
+    - "BuiltIn"
+    - "CarPort"
+    - "Basment"
+    - "2Types"
+  categorical_Heating:
+    - "GasA"
+    - "GasW"
+    - "Grav"
+    - "Wall"
+    - "OthW"
+    - "Floor"
+  categorical_HeatingQC:
+    - "Ex"
+    - "Gd"
+    - "TA"
+    - "Fa"
+    - "Po"
+  categorical_HouseStyle:
+    - "2Story"
+    - "1Story"
+    - "1.5Fin"
+    - "1.5Unf"
+    - "SFoyer"
+    - "SLvl"
+    - "2.5Unf"
+    - "2.5Fin"
+  categorical_KitchenQual:
+    - "Gd"
+    - "TA"
+    - "Ex"
+    - "Fa"
+  categorical_LandContour:
+    - "Lvl"
+    - "Bnk"
+    - "Low"
+    - "HLS"
+  categorical_LandSlope:
+    - "Gtl"
+    - "Mod"
+    - "Sev"
+  categorical_LotConfig:
+    - "Inside"
+    - "FR2"
+    - "Corner"
+    - "CulDSac"
+    - "FR3"
+  categorical_LotShape:
+    - "Reg"
+    - "IR1"
+    - "IR2"
+    - "IR3"
+  categorical_MSZoning:
+    - "RL"
+    - "RM"
+    - "C (all)"
+    - "FV"
+    - "RH"
+  categorical_MasVnrType:
+    - "BrkFace"
+    - "None"
+    - "Stone"
+    - "BrkCmn"
+  categorical_Neighborhood:
+    - "CollgCr"
+    - "Veenker"
+    - "Crawfor"
+    - "NoRidge"
+    - "Mitchel"
+    - "Somerst"
+    - "NWAmes"
+    - "OldTown"
+    - "BrkSide"
+    - "Sawyer"
+    - "NridgHt"
+    - "NAmes"
+    - "SawyerW"
+    - "IDOTRR"
+    - "MeadowV"
+    - "Edwards"
+    - "Timber"
+    - "Gilbert"
+    - "StoneBr"
+    - "ClearCr"
+    - "NPkVill"
+    - "Blmngtn"
+    - "BrDale"
+    - "SWISU"
+    - "Blueste"
+  categorical_PavedDrive:
+    - "Y"
+    - "N"
+    - "P"
+  categorical_RoofMatl:
+    - "CompShg"
+    - "WdShngl"
+    - "Metal"
+    - "WdShake"
+    - "Membran"
+    - "Tar&Grv"
+    - "Roll"
+    - "ClyTile"
+  categorical_RoofStyle:
+    - "Gable"
+    - "Hip"
+    - "Gambrel"
+    - "Mansard"
+    - "Flat"
+    - "Shed"
+  categorical_SaleCondition:
+    - "Normal"
+    - "Abnorml"
+    - "Partial"
+    - "AdjLand"
+    - "Alloca"
+    - "Family"
+  categorical_SaleType:
+    - "WD"
+    - "New"
+    - "COD"
+    - "ConLD"
+    - "ConLI"
+    - "CWD"
+    - "ConLw"
+    - "Con"
+    - "Oth"
+  categorical_Street:
+    - "Pave"
+    - "Grvl"
+  categorical_Utilities:
+    - "AllPub"
+    - "NoSeWa"

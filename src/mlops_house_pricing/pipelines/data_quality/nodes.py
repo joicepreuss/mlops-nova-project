@@ -151,13 +151,15 @@ def check_data_cleaning(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[
     #                                        median_sales_price*(1+median_threshold))
     check_nulls(gdf, gdf.columns)
     # gdf.expect_column_values_to_be_unique("Id")
-    gdf.expect_column_max_to_be_between("YearBuilt", 1800, current_year)
-    gdf.expect_column_max_to_be_between("YrSold", 1950, current_year)
+    gdf.expect_column_max_to_be_between("numerical__YearBuilt", 1800, current_year)
+    gdf.expect_column_max_to_be_between("numerical__YrSold", 1950, current_year)
     
     # Create the validation results and save them in a json file.
     validation_results = gdf.validate()
     file_path_validation_results = os.path.join(folder_path, "Cleaned_data_validation_results.json")
-    validation_results.to_json_dict(file_path_validation_results)
+    with open(file_path_validation_results, "w") as outfile:
+        json.dump(validation_results, outfile)
+    # validation_results.to_json_dict(file_path_validation_results)
 
     failed_expectations = [result for result in validation_results["results"] if not result["success"]]
     
