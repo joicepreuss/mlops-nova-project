@@ -10,6 +10,18 @@ house_pricing_raw:
   load_args:
     sep: ','
 
+reference_raw:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/reference_data.csv
+  load_args:
+    sep: ','
+
+drift_data_raw:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/drift_data.csv
+  load_args:
+    sep: ','
+
 X_train_data:
   type: pandas.CSVDataSet
   filepath: data/02_intermediate/X_train.csv
