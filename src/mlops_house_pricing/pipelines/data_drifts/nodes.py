@@ -43,44 +43,15 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
                                                             timestamp_column_name="timestamp")
     
     if multivariat_drift_detected:
+        create_psi_plot(feature_columns, reference, analysis, 'drift')
         raise Exception(
             f"Data Drift detected in the multivariate data drift analysis."
         )
     else:
+        create_psi_plot(feature_columns, reference, analysis, 'no_drift')
         logger.info(
             f"No data drift detected in the multivariate data drift analysis."
         )
-    
-    # univariant_drift_detected = calculate_drift_univariate(reference, 
-    #                                                     analysis, 
-    #                                                     column_names=feature_columns, 
-    #                                                     treat_as_categorical=[], 
-    #                                                     timestamp_column_name="timestamp")
-    
-    # for column_name in univariant_drift_detected:
-    #     if univariant_drift_detected[column_name]['kolgomorov']:
-    #         raise Exception(
-    #             f"Kolgomorov Data Drift detected in the univariate data drift analysis for column {column_name}."
-    #         )
-    #     elif univariant_drift_detected[column_name]['jensen']:
-    #         raise Exception(
-    #             f"Jensen Data Drift detected in the univariate data drift analysis for column {column_name}."
-    #         )
-    #     else:
-    #         logger.info(
-    #             f"No data drift detected in the univariate data drift analysis for column {column_name}."
-    #         )
-    
-    # estimate_performance(reference,
-    #                     analysis,
-    #                     feature_column_names=feature_columns,
-    #                     y_pred="y_pred",
-    #                     y_true="y_true",
-    #                     timestamp_column_name="timestamp",
-    #                     metrics=['rmse', 'rmsle'],
-    #                     tune_hyperparameters=False)
-    
-    create_psi_plot(feature_columns, reference, analysis)
 
 def create_timestamp_column(df : pd.DataFrame, column_name_year : str, column_name_month : str) -> pd.DataFrame:
     """
@@ -104,7 +75,7 @@ def calculate_drift_multivariat(reference : pd.DataFrame, analysis : pd.DataFram
         timestamp_column_name (str): Timestamp column name
     """
 
-    folder_path = '../data/08_reporting/Data_drifts_reporting/Multivariate_drifts'
+    folder_path = os.path.join(os.getcwd(), 'data', '08_reporting', 'data_drifts_reporting', 'multivariative_drift')
     os.makedirs(folder_path, exist_ok=True)
 
     calc = nml.DataReconstructionDriftCalculator(column_names=feature_column_names,
@@ -116,127 +87,24 @@ def calculate_drift_multivariat(reference : pd.DataFrame, analysis : pd.DataFram
     analysis_results = results.filter(period='analysis').to_df()
     reference_results = results.filter(period='reference').to_df()
 
-    analysis_results.to_csv(os.path.join(folder_path, 'Multivariate_analysis_results.csv'))
-    reference_results.to_csv(os.path.join(folder_path, 'Multivariate_reference_results.csv'))
-
-    figure = results.plot()
-    file_path = os.path.join(folder_path, 'multivariate_drift.html')
-    figure.write_html(file_path)
-
     drift_detected = False
     if analysis_results[('reconstruction_error','alert')].max():
-        logger.info('Multivariate drift detected')
         drift_detected = True
+        analysis_results.to_csv(os.path.join(folder_path, 'with_drift_multivariate_analysis_results.csv'))
+        reference_results.to_csv(os.path.join(folder_path, 'with_drift_multivariate_reference_results.csv'))
+
+        figure = results.plot()
+        file_path = os.path.join(folder_path, 'with_drift_multivariate_drift.html')
+        figure.write_html(file_path)
+    else:
+        analysis_results.to_csv(os.path.join(folder_path, 'without_drift_multivariate_analysis_results.csv'))
+        reference_results.to_csv(os.path.join(folder_path, 'without_drift_multivariate_reference_results.csv'))
+
+        figure = results.plot()
+        file_path = os.path.join(folder_path, 'without_drift_multivariate_drift.html')
+        figure.write_html(file_path)
 
     return drift_detected
-
-
-def calculate_drift_univariate(reference : pd.DataFrame, analysis : pd.DataFrame,
-                                column_names : List[str], treat_as_categorical : List[str],
-                                timestamp_column_name : str, continuous_methods : List[str]=['kolmogorov_smirnov', 'jensen_shannon'],
-                                categorical_methods : List[str]=['chi2', 'jensen_shannon']) -> Result:
-    """
-    Calculates and plots the univariate data drift.
-    The used methods are:
-    - Continuous: Kolmogorov-Smirnov, Jensen-Shannon
-    - Categorical: Chi2, Jensen-Shannon
-
-    Args:
-    --
-        reference (pd.DataFrame): Reference dataset
-        analysis (pd.DataFrame): Analysis dataset
-        column_names (List[str]): List of column names
-        treat_as_categorical (List[str]): List of column names to treat as categorical
-        timestamp_column_name (str): Timestamp column name
-        continuous_methods (List[str]): List of continuous methods
-        categorical_methods (List[str]): List of categorical methods
-    """
-
-    folder_path = '../data/08_reporting/Data_drifts_reporting/Univariate_drifts'
-    os.makedirs(folder_path, exist_ok=True)
-
-    calc = nml.UnivariateDriftCalculator(column_names=column_names,
-                                         treat_as_categorical=treat_as_categorical,
-                                         timestamp_column_name=timestamp_column_name,
-                                         continuous_methods=continuous_methods,
-                                         categorical_methods=categorical_methods
-                                         )
-    calc.fit(reference)
-    results = calc.calculate(analysis)
-
-    analysis_results = results.filter(period='analysis').to_df()
-    reference_results = results.filter(period='reference').to_df()
-
-    analysis_results.to_csv(os.path.join(folder_path, 'Univariate_analysis_results.csv'))
-    reference_results.to_csv(os.path.join(folder_path, 'Univariate_reference_results.csv'))
-
-    jensen = results.filter(column_names=results.continuous_column_names, methods=['jensen_shannon']).plot(kind='drift')
-    file_path_jensen = os.path.join(folder_path, 'Univariate_drift_jensen_shannon.html')
-    jensen.write_html(file_path_jensen)
-    
-    kolgomorov = results.filter(column_names=results.continuous_column_names, methods=['kolmogorov_smirnov']).plot(kind='drift')
-    file_path_kolgomorov = os.path.join(folder_path, 'Univariate_drift_kolgomorov_smirnov.html')
-    kolgomorov.write_html(file_path_kolgomorov)
-
-    drift_dict = {}
-    drift_kolgomorov = False
-    drift_jensen = False
-    for column_name in column_names:
-        if analysis_results[(column_name,'kolmogorov_smirnov','alert')].max():
-            logger.info(f'Univariate drift detected - Kolgomorov-Smirnov - {column_name}')
-            drift_kolgomorov = True
-        if analysis_results[(column_name,'jensen_shannon','alert')].max():
-            logger.info(f'Univariate drift detected - Jensen Shannon - {column_name}')
-            drift_jensen = True
-        drift_dict[column_name] = {"kolgomorov": drift_kolgomorov, "jensen": drift_jensen} 
-
-    return drift_dict
-
-def estimate_performance(reference : pd.DataFrame, 
-                         analysis : pd.DataFrame,
-                         feature_column_names : List[str], 
-                         y_pred : pd.Series, y_true : pd.Series,
-                         timestamp_column_name : str, 
-                         metrics : str ="mse",
-                         tune_hyperparameters = False): 
-    """
-    Estimates the model performance using the DLE algorithm from NannyML.
-
-    Args:
-    --
-        reference (pd.DataFrame): Reference dataset
-        analysis (pd.DataFrame): Analysis dataset
-        feature_column_names (List[str]): List of feature column names
-        y_pred (pd.Series): Predicted target values
-        y_true (pd.Series): True target values
-        timestamp_column_name (str): Timestamp column name
-        metrics (str): Metric to use for performance estimation
-        tune_hyperparameters (bool): Whether to tune the hyperparameters
-    """
-    folder_path = '../data/08_reporting/Data_drifts_reporting/Estimate_performance'
-    os.makedirs(folder_path, exist_ok=True)
-
-    estimator = nml.DLE(feature_column_names=feature_column_names,
-                        y_pred=y_pred,
-                        y_true=y_true,
-                        timestamp_column_name=timestamp_column_name,
-                        metrics=metrics,
-                        tune_hyperparameters=tune_hyperparameters
-                        )
-    
-    estimator.fit(reference)
-    results = estimator.estimate(analysis)
-
-    analysis_results = results.filter(period='analysis').to_df()
-    reference_results = results.filter(period='reference').to_df()
-    analysis_results.to_csv(os.path.join(folder_path, 'Estimate_performance_analysis_results.csv'))
-    reference_results.to_csv(os.path.join(folder_path, 'Estimate_performance_reference_results.csv'))
-
-    metric_fig = results.plot()
-    file_path = os.path.join(folder_path, 'estimate_performance.html')
-    metric_fig.write_html(file_path)
-
-# CODE FOR PSI FROM LAB1
 
 def calculate_psi(expected, actual, buckettype='bins', buckets=10, axis=0):
     '''
@@ -313,11 +181,11 @@ def calculate_psi(expected, actual, buckettype='bins', buckets=10, axis=0):
 
     return(psi_values)
 
-def create_psi_plot(numerical_features, reference, analysis):
+def create_psi_plot(numerical_features, reference, analysis, type):
     """
     Create a plot of the PSI values for each numerical feature
     """
-    folder_path = '../data/08_reporting/Data_drifts_reporting'
+    folder_path = os.path.join(os.getcwd(), 'data', '08_reporting', 'data_drifts_reporting', 'psi_plots')
     os.makedirs(folder_path, exist_ok=True)
     sns.set_style("darkgrid")
     psis_num = []
@@ -336,6 +204,11 @@ def create_psi_plot(numerical_features, reference, analysis):
     plt.xlabel("PSI")
     plt.title("PSI for numerical features")
     plt.ylabel("Features")
-    file_path = os.path.join(folder_path, 'psi_numerical_features.png')
-    plt.savefig(file_path)
-    plt.close()
+    if type == "drift":
+        file_path = os.path.join(folder_path, 'with_drift_psi_numerical_features.png')
+        plt.savefig(file_path)
+        plt.close()
+    else:
+        file_path = os.path.join(folder_path, 'without_drift_psi_numerical_features.png')
+        plt.savefig(file_path)
+        plt.close()
