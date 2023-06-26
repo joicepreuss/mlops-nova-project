@@ -31,7 +31,7 @@ def model_predict(X: pd.DataFrame,
     X =  pd.DataFrame(cleaning_preprocessor.transform(X), 
                       columns=cleaning_preprocessor.get_feature_names_out())
     # Feature engeneering
-    X = pd.DataFrame(feat_eng_preprocessor.transform(X).toarray(), 
+    X = pd.DataFrame(feat_eng_preprocessor.transform(X), 
                       columns=feat_eng_preprocessor.get_feature_names_out())
 
     # Predict
