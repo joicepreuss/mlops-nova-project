@@ -42,7 +42,7 @@ def feature_engeneering(X_train: pd.DataFrame, X_test: pd.DataFrame) -> Tuple[pd
         ('scaler', RobustScaler())
     ])
     categorical_pipeline = Pipeline([
-        ('label', OneHotEncoder(handle_unknown='ignore'))
+        ('label', OneHotEncoder(handle_unknown='ignore', sparse_output=False))
     ])
     # Combine numerical and categorical pipelines.
     feat_eng_preprocessor = ColumnTransformer([

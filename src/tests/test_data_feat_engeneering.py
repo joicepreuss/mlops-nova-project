@@ -1,41 +1,38 @@
-"""
-This module contains an example test.
-
-Tests should be placed in ``src/tests``, in modules that mirror your
-project's structure, and in files named test_*.py. They are simply functions
-named ``test_*`` which test a unit of logic.
-
-To run the tests, run ``kedro test`` from the project root directory.
-"""
-
-from pathlib import Path
-import sys
-import os
-import yaml
-
-import pytest
 import pandas as pd
-import numpy as np
+
 from sklearn.compose import ColumnTransformer
-
-from kedro.framework.project import settings
-from kedro.config import ConfigLoader
-from kedro.framework.context import KedroContext
-from kedro.framework.hooks import _create_hook_manager
-
 from src.mlops_house_pricing.pipelines.data_feat_engeneering.nodes import feature_engeneering
 
-dir = os.path.join(os.getcwd(),'src','tests','sample_data')
-
 def test_feature_engeneering():
-    # Create sample data
-    data_train = {'numerical_feature': [1, 2, 3, 4], 'categorical_feature': ['A', 'B', 'A', 'A']}
-    data_test = {'numerical_feature': [4, 5], 'categorical_feature': ['B','A']}
+    """
+    Test the feature_engeneering function.
+    """
     
-    X_train = pd.DataFrame(data_train)
-    X_test = pd.DataFrame(data_test)
+    # Generate train data
+    train_data = {
+        'num_1': [1, 2, 3, 4, 5],
+        'num_2' : [6, 7, 8, 9, 10],
+        'cat_1': ['cat', 'dog', 'cat', 'dog', 'mouse'],
+        'cat_2': ['red', 'blue', 'red', 'blue', 'green']
+    }
+    X_train = pd.DataFrame(train_data)
     
-    # Call the feature_engeneering function
+    # Generate test data
+    test_data = {
+        'num_1': [6, 7, 8],
+        'num_2': [11, 12, 13],
+        'cat_1': ['dog', 'cat', 'dog'],
+        'cat_2': ['blue', 'green', 'red']
+    }
+    X_test = pd.DataFrame(test_data)
+    
+    # Expected columns
+    expected_columns = ['numerical__num_1', 'numerical__num_2',
+                        'categorical__cat_1_cat', 'categorical__cat_1_dog', 
+                        'categorical__cat_1_mouse', 'categorical__cat_2_blue', 
+                        'categorical__cat_2_green', 'categorical__cat_2_red']
+    
+    # Call feature_engeneering function
     X_train_transformed, X_test_transformed, describe, preprocessor = feature_engeneering(X_train, X_test)
     
     # Check the output types
@@ -48,7 +45,6 @@ def test_feature_engeneering():
     assert X_train_transformed.shape[0] == X_train.shape[0]
     assert X_test_transformed.shape[0] == X_test.shape[0]
     
-    # Check the transformed data
-    expected_columns = ['numerical__numerical_feature', 'categorical__categorical_feature_A', 'categorical__categorical_feature_B']
+    # Check the transformed data columns
     assert list(X_train_transformed.columns) == expected_columns
     assert list(X_test_transformed.columns) == expected_columns
