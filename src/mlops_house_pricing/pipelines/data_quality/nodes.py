@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 def check_data_feature_engineering(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[pd.DataFrame, Dict]:
     """
     Check expectations for the feature engineered dataset.
-    - Check if the numerical features are in the expected range.
     - Check if the onehotencoded categorical features have values 0 or 1.
 
     Afterwards save the validation results and raise an exception and save the errors, if any of the expectations fail.
@@ -120,7 +119,7 @@ def check_data_cleaning(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[
     """
 
     # Creates a folder to save the expectations results.
-    folder_path = '../data/08_reporting/Expectations_reporting'
+    folder_path = os.path.join(os.getcwd(), "data", "08_reporting", "Expectations_reporting")
     os.makedirs(folder_path, exist_ok=True)
 
     current_year = datetime.date.today().year + 1
@@ -174,6 +173,3 @@ def check_data_cleaning(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[
         raise Exception(
             f"Data Quality Validation Failed: {collect_errors}"
         )
-      
-
-
