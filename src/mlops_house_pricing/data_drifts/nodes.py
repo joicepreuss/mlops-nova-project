@@ -35,7 +35,7 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
     feature_columns = parameters["most_important_features"]
 
     reference = reference[feature_columns + ["timestamp", "y_pred", "y_true"]]
-    analysis = analysis[feature_columns + ["timestamp"]]
+    analysis = analysis[feature_columns + ["timestamp", "y_pred"]]
     
     calculate_drift_multivariat(reference, 
                                  analysis, 
@@ -51,8 +51,8 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
     estimate_performance(reference,
                         analysis,
                         feature_column_names=feature_columns,
-                        y_pred=reference["y_pred"],
-                        y_true=reference["y_true"],
+                        y_pred="y_pred",
+                        y_true="y_true",
                         timestamp_column_name="timestamp",
                         metrics=['rmse', 'rmsle'],
                         tune_hyperparameters=False)
