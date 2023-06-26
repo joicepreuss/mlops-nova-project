@@ -9,13 +9,15 @@ import os
 
 import mlflow
 from sklearn.metrics import mean_squared_error
+from sklearn.ensemble import RandomForestRegressor
 
 logger = logging.getLogger(__name__)
 
 def model_train(X_train: pd.DataFrame, 
                 X_test: pd.DataFrame, 
                 y_train: pd.DataFrame, 
-                y_test: pd.DataFrame):
+                y_test: pd.DataFrame,
+                parameters: Dict[str, Any]):
     """Trains a model on the given data and saves it to the given model path.
 
     Args:
@@ -39,8 +41,11 @@ def model_train(X_train: pd.DataFrame,
     mlflow.sklearn.autolog()
 
     # open pickle file with regressors
-    with open(os.path.join(os.getcwd(), 'data', '06_models', 'champion_model.pkl'), 'rb') as f:
-        regressor = pickle.load(f)
+    try:
+        with open(os.path.join(os.getcwd(), 'data', '06_models', 'champion_model.pkl'), 'rb') as f:
+            regressor = pickle.load(f)
+    except:
+        regressor = RandomForestRegressor(**parameters['baseline_model_params'])
 
     results_dict = {}
     with mlflow.start_run(experiment_id=experiment_id, nested=True):
