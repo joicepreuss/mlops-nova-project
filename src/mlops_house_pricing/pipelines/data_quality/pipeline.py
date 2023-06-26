@@ -14,7 +14,7 @@ def create_pipeline(type, **kwargs) -> Pipeline:
                 node(
                     func=check_data_feature_engineering,
                     inputs=["X_train_transformed", "parameters"],
-                    outputs=[],
+                    outputs=None,
                     name="data_quality_feature_engineering",
                 )
             ]
@@ -25,7 +25,7 @@ def create_pipeline(type, **kwargs) -> Pipeline:
                 node(
                     func=check_data_cleaning,
                     inputs=["X_train_cleaned", "parameters"],
-                    outputs=[],
+                    outputs=None,
                     name="data_quality_cleaned_data",
                 )
             ]

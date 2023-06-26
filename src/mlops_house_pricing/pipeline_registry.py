@@ -58,8 +58,8 @@ def register_pipelines() -> Dict[str, Pipeline]:
 
     return {
         "predict": model_predict_pipe,
-        "train": split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + model_train_pipe,
-        "model_selection" : split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + model_selection_pipe,
+        "train": split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_train_pipe,
+        "model_selection" : split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_selection_pipe,
         #"process": split_pipe + cleaning_pipe, Is it necessary?
-        "__default__": split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + model_train_pipe + model_predict_pipe,
+        "__default__": split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + data_quality_feature_engineering + model_train_pipe + model_predict_pipe,
     }
