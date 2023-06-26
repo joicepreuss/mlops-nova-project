@@ -78,9 +78,7 @@ def check_data_feature_engineering(df: pd.DataFrame, parameters : Dict[str, Any]
         raise Exception(
             f"Data Quality Validation Failed: {collect_errors}"
         )
-   
 
-# CODE FOR DATA CLEANING EXPECTATIONS
 def check_nulls(gdf, columns):
     for column in columns:
         gdf.expect_column_values_to_not_be_null(column)
