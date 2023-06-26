@@ -13,19 +13,19 @@ def test_model_train():
     X_test = pd.DataFrame({'feature1': [7, 8, 9], 'feature2': [10, 11, 12]})
     y_train = pd.DataFrame({'target': [2, 4, 6]})
     y_test = pd.DataFrame({'target': [8, 10, 12]})
-    # parameters = {
-    #     "run_name": "test_run",
-    #     "n_jobs": -1,
-    #     "max_depth": 6,
-    #     "random_state": 42,
-    #     "n_estimators": 100,
-    #     "max_features": 20
-    # }
+    parameters = {
+        "run_name": "test_run",
+        "n_jobs": -1,
+        "max_depth": 6,
+        "random_state": 42,
+        "n_estimators": 100,
+        "max_features": 20
+    }
     # # Set the experiment name
     # mlflow.set_experiment(parameters["run_name"])
     
     # Call the function to train the model
-    best_model, scores_to_dict = model_train(X_train, X_test, y_train, y_test)#, parameters)
+    best_model, scores_to_dict = model_train(X_train, X_test, y_train, y_test, parameters)
 
     # Best model should not be None  
     assert best_model is not None
