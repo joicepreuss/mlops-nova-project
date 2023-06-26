@@ -13,19 +13,33 @@ logger = logging.getLogger(__name__)
 
 
 def create_timestamp_column(df : pd.DataFrame, column_name_year : str, column_name_month : str) -> pd.DataFrame:
+    """
+    This function creates a new timestamp column using a passed year and month column
+    """
     df['timestamp'] = pd.to_datetime(df[column_name_year].astype(str) + '-' + df[column_name_month].astype(str), format='%Y-%m')
     
     return df
 
 
-def filter_rows_by_years(df : pd.DataFrame, years : int, months : int=None) -> pd.DataFrame:
-    filtered_df = df[df['timestamp'].dt.year.isin(years)]
+def filter_rows_by_years(df : pd.DataFrame, years : int, months : int=None,
+                         timestamp_column_name : str="timestamp") -> pd.DataFrame:
+    """
+    This function returns a df with the passed years like in this example
+    reference = filter_rows_by_years(df, [2007, 2008])
+    analysis = filter_rows_by_years(df, [2009, 2010])
+    months can also be defined like:
+    first_half_2006 = filter_rows_by_years(df, [2006], [1, 2, 3, 4, 5, 6])
+    second_half_2006 = filter_rows_by_years(df, [2006], [7, 8, 9, 10, 11, 12])
+    """
+    filtered_df = df[df[timestamp_column_name].dt.year.isin(years)]
     
     if months:
-        filtered_df = filtered_df[filtered_df['timestamp'].dt.month.isin(months)]
+        filtered_df = filtered_df[filtered_df[timestamp_column_name].dt.month.isin(months)]
     
     return filtered_df
 
+"""
+NOT NEEDED ANYMORE: PERFORMANCE EVALUATION DOESN'T NEED A PROBABILITY!!
 
 def binarize_sales(df : pd.DataFrame) -> pd.DataFrame:
     median_sale_price = df["SalePrice"].median()
@@ -41,12 +55,16 @@ def create_probability(x_train : pd.DataFrame, x_test : pd.DataFrame, y_true : p
     x_test["proba_pred"] = scaler.transform(X=np.array(x_test["SalePrice"]).reshape(-1,1))
 
     return x_train, x_test, scaler
+"""
 
-
-def calculate_drift_multivariant(reference : pd.DataFrame, analysis : pd.DataFrame, feature_column_names : List[str]) -> None:
+def calculate_drift_multivariant(reference : pd.DataFrame, analysis : pd.DataFrame,
+                                 feature_column_names : List[str], timestamp_column_name : str="timestamp") -> None:
+    """
+    This function calculates and plots the multivariant data drift
+    """
 
     calc = nml.DataReconstructionDriftCalculator(column_names=feature_column_names,
-                                                 timestamp_column_name='timestamp'
+                                                 timestamp_column_name=timestamp_column_name
                                                  )
     calc.fit(reference)
 
@@ -62,6 +80,9 @@ def calculate_drift_univariante(reference : pd.DataFrame, analysis : pd.DataFram
                                 column_names : List[str], treat_as_categorical : List[str],
                                 timestamp_column_name : str, continuous_methods : List[str]=['kolmogorov_smirnov', 'jensen_shannon'],
                                 categorical_methods : List[str]=['chi2', 'jensen_shannon']) -> Result:
+    """
+    This function calculates and plots the univariante data drift
+    """
 
     calc = nml.UnivariateDriftCalculator(column_names=column_names,
                                          treat_as_categorical=treat_as_categorical,
@@ -78,6 +99,10 @@ def estimate_performance(reference : pd.DataFrame, analysis : pd.DataFrame,
                          feature_column_names : List[str], y_pred : pd.Series, y_true : pd.Series,
                          timestamp_column_name : str, metrics: List[str]=['rmse', 'rmsle'],
                          tune_hyperparameters : bool=False) -> None:
+    
+    """
+    This function is estimating the model performance using the DLE
+    """
 
     estimator = nml.DLE(feature_column_names=feature_column_names,
                         y_pred=y_pred,
