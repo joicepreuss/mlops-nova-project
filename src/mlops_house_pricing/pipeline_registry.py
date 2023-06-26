@@ -26,7 +26,7 @@ from mlops_house_pricing.pipelines import data_feat_engeneering as df
 from mlops_house_pricing.pipelines import model_train as dm
 from mlops_house_pricing.pipelines import model_predict as dpred
 from mlops_house_pricing.pipelines import model_selection as dms
-from mlops_house_pricing.data_quality.nodes import check_ranges
+from mlops_house_pricing.pipelines import data_quality as dq
 
 
 def register_pipelines() -> Dict[str, Pipeline]:
@@ -38,24 +38,28 @@ def register_pipelines() -> Dict[str, Pipeline]:
     split_pipe = ds.create_pipeline()
     cleaning_pipe = dc.create_pipeline()
     feature_eng_pipe = df.create_pipeline()
+
+    data_quality_feature_engineering = dq.create_pipeline('feature_engineering')
+    data_quality_cleaned_data = dq.create_pipeline('data_clean')
+    
     model_train_pipe = dm.create_pipeline()
     model_predict_pipe = dpred.create_pipeline()
     model_selection_pipe = dms.create_pipeline()
 
-    check_ranges_after_scaling_pipe = Pipeline(
-        [
-            node(
-                check_ranges,
-                inputs=["X_train_transformed","parameters"],
-                outputs=[]
-            )
-        ]
-    )
+    # check_ranges_after_scaling_pipe = Pipeline(
+    #     [
+    #         node(
+    #             check_ranges,
+    #             inputs=["X_train_transformed","parameters"],
+    #             outputs=[]
+    #         )
+    #     ]
+    # )
 
     return {
         "predict": model_predict_pipe,
-        "train": split_pipe + cleaning_pipe + feature_eng_pipe + model_train_pipe,
-        "model_selection" : split_pipe + cleaning_pipe + feature_eng_pipe + model_selection_pipe,
+        "train": split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + model_train_pipe,
+        "model_selection" : split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + model_selection_pipe,
         #"process": split_pipe + cleaning_pipe, Is it necessary?
-        "__default__": split_pipe + cleaning_pipe + feature_eng_pipe + model_train_pipe + model_predict_pipe,
+        "__default__": split_pipe + cleaning_pipe + data_quality_cleaned_data + feature_eng_pipe + model_train_pipe + model_predict_pipe,
     }

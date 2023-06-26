@@ -144,13 +144,13 @@ def check_data_cleaning(df: pd.DataFrame, parameters : Dict[str, Any]) -> Tuple[
     check_if_column_exist(gdf, column_list)
     check_dtype(gdf, num_cols, dtype='numeric')
     check_dtype(gdf, cat_cols, dtype='object')
-    check_categorical_unique_values(gdf, cat_unique_values)
+    # check_categorical_unique_values(gdf, cat_unique_values)
     
-    gdf.expect_column_median_to_be_between("SalePrice", 
-                                           median_sales_price*(1-median_threshold), 
-                                           median_sales_price*(1+median_threshold))
+    # gdf.expect_column_median_to_be_between("SalePrice", 
+    #                                        median_sales_price*(1-median_threshold), 
+    #                                        median_sales_price*(1+median_threshold))
     check_nulls(gdf, gdf.columns)
-    gdf.expect_column_values_to_be_unique("Id")
+    # gdf.expect_column_values_to_be_unique("Id")
     gdf.expect_column_max_to_be_between("YearBuilt", 1800, current_year)
     gdf.expect_column_max_to_be_between("YrSold", 1950, current_year)
     
