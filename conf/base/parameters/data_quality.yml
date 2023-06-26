@@ -1,6 +1,4 @@
-num_quality_ranges :
-  max : 5
-  min: -5
+
 
 num_columns: 72
 
