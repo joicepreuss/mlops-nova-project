@@ -2,7 +2,6 @@ import logging
 from typing import Dict, Tuple, Any, List
 import numpy as np
 import pandas as pd
-from IPython.display import display
 import matplotlib.pyplot as plt
 import seaborn as sns
 import nannyml as nml
@@ -12,13 +11,19 @@ import os
 logger = logging.getLogger(__name__)
 
 def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, parameters : Dict[str, Any]):
+    """
+    Data drift detection.
+    - Multivariate data drift
+    - Univariate data drift
+    - Model performance drift
 
-# 1. timestamp column, wird kreiert aus dem month sold and year sold
-# 2. reference = dataset mit prediction und cleaned und y_true
-# 3. analysis = mock dataset ohne prediction und cleaned
-# 4. 2 features distribution verändern
-# reference dataframe = golden dataset mit test und predictions und y_true (aus raw und predictions)
+    Args:
+    --
+        reference (pd.DataFrame): Reference dataset
+        analysis (pd.DataFrame): Analysis dataset
+        parameters (Dict[str, Any]): Parameters
 
+    """
     reference = create_timestamp_column(reference, 
                                         column_name_year="YrSold", 
                                         column_name_month="MoSold")
@@ -32,8 +37,6 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
     reference = reference[feature_columns + ["timestamp", "y_pred", "y_true"]]
     analysis = analysis[feature_columns + ["timestamp"]]
     
-    calculate_psi(reference, analysis, buckettype='bins', buckets=10, axis=0)
-
     calculate_drift_multivariat(reference, 
                                  analysis, 
                                  feature_column_names=feature_columns,
@@ -60,7 +63,7 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
 
 def create_timestamp_column(df : pd.DataFrame, column_name_year : str, column_name_month : str) -> pd.DataFrame:
     """
-    This function creates a new timestamp column using a passed year and month column
+    This function creates a new timestamp column using a passed year and month column.
     """
     df['timestamp'] = pd.to_datetime(df[column_name_year].astype(str) + '-' + df[column_name_month].astype(str), format='%Y-%m')
     
@@ -70,7 +73,14 @@ def create_timestamp_column(df : pd.DataFrame, column_name_year : str, column_na
 def calculate_drift_multivariat(reference : pd.DataFrame, analysis : pd.DataFrame,
                                  feature_column_names : List[str], timestamp_column_name : str="timestamp") -> None:
     """
-    This function calculates and plots the multivariant data drift
+    Calculates and plots the multivariant data drift.
+
+    Args:
+    --
+        reference (pd.DataFrame): Reference dataset
+        analysis (pd.DataFrame): Analysis dataset
+        feature_column_names (List[str]): List of feature column names
+        timestamp_column_name (str): Timestamp column name
     """
 
     folder_path = '../data/08_reporting/Data_drifts_reporting/Multivariate_drifts'
@@ -98,7 +108,20 @@ def calculate_drift_univariate(reference : pd.DataFrame, analysis : pd.DataFrame
                                 timestamp_column_name : str, continuous_methods : List[str]=['kolmogorov_smirnov', 'jensen_shannon'],
                                 categorical_methods : List[str]=['chi2', 'jensen_shannon']) -> Result:
     """
-    This function calculates and plots the univariate data drift
+    Calculates and plots the univariate data drift.
+    The used methods are:
+    - Continuous: Kolmogorov-Smirnov, Jensen-Shannon
+    - Categorical: Chi2, Jensen-Shannon
+
+    Args:
+    --
+        reference (pd.DataFrame): Reference dataset
+        analysis (pd.DataFrame): Analysis dataset
+        column_names (List[str]): List of column names
+        treat_as_categorical (List[str]): List of column names to treat as categorical
+        timestamp_column_name (str): Timestamp column name
+        continuous_methods (List[str]): List of continuous methods
+        categorical_methods (List[str]): List of categorical methods
     """
 
     folder_path = '../data/08_reporting/Data_drifts_reporting/Univariate_drifts'
@@ -127,14 +150,28 @@ def calculate_drift_univariate(reference : pd.DataFrame, analysis : pd.DataFrame
     file_path_kolgomorov = os.path.join(folder_path, 'Univariate_drift_kolgomorov_smirnov.html')
     kolgomorov.write_html(file_path_kolgomorov)
 
-    return results
 
-def estimate_performance(reference : pd.DataFrame, analysis : pd.DataFrame,
-                         feature_column_names : List[str], y_pred : pd.Series, y_true : pd.Series,
-                         timestamp_column_name : str, metrics: List[str]=['rmse', 'rmsle'],
-                         tune_hyperparameters : bool=False) -> None: 
+
+def estimate_performance(reference : pd.DataFrame, 
+                         analysis : pd.DataFrame,
+                         feature_column_names : List[str], 
+                         y_pred : pd.Series, y_true : pd.Series,
+                         timestamp_column_name : str, 
+                         metrics : str ="mse",
+                         tune_hyperparameters = False): 
     """
-    This function is estimating the model performance using the DLE
+    Estimates the model performance using the DLE algorithm from NannyML.
+
+    Args:
+    --
+        reference (pd.DataFrame): Reference dataset
+        analysis (pd.DataFrame): Analysis dataset
+        feature_column_names (List[str]): List of feature column names
+        y_pred (pd.Series): Predicted target values
+        y_true (pd.Series): True target values
+        timestamp_column_name (str): Timestamp column name
+        metrics (str): Metric to use for performance estimation
+        tune_hyperparameters (bool): Whether to tune the hyperparameters
     """
     folder_path = '../data/08_reporting/Data_drifts_reporting/Estimate_performance'
     os.makedirs(folder_path, exist_ok=True)
@@ -159,10 +196,13 @@ def estimate_performance(reference : pd.DataFrame, analysis : pd.DataFrame,
     file_path = os.path.join(folder_path, 'estimate_performance.html')
     metric_fig.write_html(file_path)
 
+
 # CODE FOR PSI FROM LAB1
 
 def calculate_psi(expected, actual, buckettype='bins', buckets=10, axis=0):
-    '''Calculate the PSI (population stability index) across all variables
+    '''
+    Code copied from the Practical Lab for data drift from MLOps course.
+    Calculate the PSI (population stability index) across all variables.
     Args:
        expected: numpy matrix of original values
        actual: numpy matrix of new values, same size as expected
@@ -235,6 +275,9 @@ def calculate_psi(expected, actual, buckettype='bins', buckets=10, axis=0):
     return(psi_values)
 
 def create_psi_plot(numerical_features, reference, analysis):
+    """
+    Create a plot of the PSI values for each numerical feature
+    """
     folder_path = '../data/08_reporting/Data_drifts_reporting'
     os.makedirs(folder_path, exist_ok=True)
     sns.set_style("darkgrid")
@@ -256,17 +299,4 @@ def create_psi_plot(numerical_features, reference, analysis):
     plt.ylabel("Features")
     file_path = os.path.join(folder_path, 'psi_numerical_features.png')
     plt.savefig(file_path)
-
-
-# def calculate_psi_categorical(actual, expected):
-#     actual_perc = actual.value_counts()/len(actual)
-#     expected_perc = expected.value_counts()/len(expected)
-#     actual_classes = list(actual_perc.index) 
-#     expected_classes = list(expected_perc.index)
-#     PSI = 0
-#     classes = set(actual_classes + expected_classes)
-#     for c in classes:
-#         final_actual_perc = actual_perc[c] if c in actual_classes else 0.00001
-#         final_expected_perc = expected_perc[c] if c in expected_classes else 0.00001
-#         PSI += (final_actual_perc - final_expected_perc)*np.log(final_actual_perc/final_expected_perc)
-#     return PSI
+    plt.close()
