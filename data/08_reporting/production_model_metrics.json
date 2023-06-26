@@ -1,0 +1,5 @@
+{
+  "regressor": "GradientBoostingRegressor",
+  "train_score": 6087358.476315988,
+  "test_score": 692683980.5226551
+}

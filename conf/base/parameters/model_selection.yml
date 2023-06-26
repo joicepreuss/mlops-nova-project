@@ -1,0 +1,12 @@
+hyperparameters : 
+  RandomForestRegressor:
+    n_estimators: [100, 200, 300]
+    max_depth: [5, 10, 20]
+    max_features: [0.5, 0.7, 1]
+  GradientBoostingRegressor:
+    n_estimators: [100, 200, 300]
+    max_depth: [5, 10, 20]
+    max_features: [0.5, 0.7, 1]
+  ElasticNet:
+    alpha: [0.1, 0.5, 1]
+    l1_ratio: [0, 0.5, 1]

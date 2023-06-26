@@ -75,17 +75,17 @@ feat_eng_preprocessor:
     filepath: data/06_models/feat_eng_preprocessor.pkl
 
 # Model training
-test_model:
+production_model:
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
   data_set:
     type: pickle.PickleDataSet
-    filepath: data/06_models/trained_model.pkl
+    filepath: data/06_models/production_model.pkl
 
-scores_describe:
+production_model_metrics:
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
   data_set:
     type: json.JSONDataSet
-    filepath: data/08_reporting/scores_describe.json
+    filepath: data/08_reporting/production_model_metrics.json
 
 # Model inference
 X_to_predict:
@@ -101,3 +101,10 @@ predict_describe:
   data_set:
     type: json.JSONDataSet
     filepath: data/08_reporting/predict_describe.json
+
+# Model selection
+champion_model:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: pickle.PickleDataSet
+    filepath: data/06_models/champion_model.pkl
