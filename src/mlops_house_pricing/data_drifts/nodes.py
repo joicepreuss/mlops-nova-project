@@ -37,16 +37,16 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
     reference = reference[feature_columns + ["timestamp", "y_pred", "y_true"]]
     analysis = analysis[feature_columns + ["timestamp", "y_pred"]]
     
-    calculate_drift_multivariat(reference, 
-                                 analysis, 
-                                 feature_column_names=feature_columns,
-                                 timestamp_column_name="timestamp")
+    multivariat_drift_detected = calculate_drift_multivariat(reference, 
+                                                            analysis, 
+                                                            feature_column_names=feature_columns,
+                                                            timestamp_column_name="timestamp")
     
-    calculate_drift_univariate(reference, 
-                                analysis, 
-                                column_names=feature_columns, 
-                                treat_as_categorical=[], 
-                                timestamp_column_name="timestamp")
+    univariat_drift_detected = calculate_drift_univariate(reference, 
+                                                        analysis, 
+                                                        column_names=feature_columns, 
+                                                        treat_as_categorical=[], 
+                                                        timestamp_column_name="timestamp")
     
     estimate_performance(reference,
                         analysis,
@@ -102,6 +102,12 @@ def calculate_drift_multivariat(reference : pd.DataFrame, analysis : pd.DataFram
     file_path = os.path.join(folder_path, 'multivariate_drift.html')
     figure.write_html(file_path)
 
+    if analysis_results[('reconstruction_error','alert')].max():
+        logger.info('Multivariate drift detected')
+        drift_detected = True
+
+    return drift_detected
+
 
 def calculate_drift_univariate(reference : pd.DataFrame, analysis : pd.DataFrame,
                                 column_names : List[str], treat_as_categorical : List[str],
@@ -150,7 +156,20 @@ def calculate_drift_univariate(reference : pd.DataFrame, analysis : pd.DataFrame
     file_path_kolgomorov = os.path.join(folder_path, 'Univariate_drift_kolgomorov_smirnov.html')
     kolgomorov.write_html(file_path_kolgomorov)
 
+    drift_dict = {}
+    drift_kolgomorov = False
+    drift_jensen = False
+    for column_name in column_names:
+        if analysis_results[(column_name,'kolmogorov_smirnov','alert')].max():
+            logger.info(f'Univariate drift detected - Kolgomorov-Smirnov - {column_name}')
+            drift_kolgomorov = True
+        if analysis_results[(column_name,'jensen_shannon','alert')].max():
+            logger.info(f'Univariate drift detected - Jensen Shannon - {column_name}')
+            drift_jensen = True
+        drift_dict[column_name] = {"kolgomorov": drift_kolgomorov, "jensen": drift_jensen} 
 
+
+    return drift_dict
 
 def estimate_performance(reference : pd.DataFrame, 
                          analysis : pd.DataFrame,
@@ -195,7 +214,6 @@ def estimate_performance(reference : pd.DataFrame,
     metric_fig = results.plot()
     file_path = os.path.join(folder_path, 'estimate_performance.html')
     metric_fig.write_html(file_path)
-
 
 # CODE FOR PSI FROM LAB1
 
