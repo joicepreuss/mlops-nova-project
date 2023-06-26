@@ -34,7 +34,7 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
     
     feature_columns = parameters["most_important_features"]
 
-    reference = reference[feature_columns + ["timestamp", "y_pred", "y_true"]]
+    reference = reference[feature_columns + ["timestamp"]]
     analysis = analysis[feature_columns + ["timestamp"]]
     
     calculate_drift_multivariat(reference, 
@@ -48,18 +48,31 @@ def check_data_drift(reference : pd.DataFrame, analysis : pd.DataFrame, paramete
                                 treat_as_categorical=[], 
                                 timestamp_column_name="timestamp")
     
-    estimate_performance(reference,
-                        analysis,
-                        feature_column_names=feature_columns,
-                        y_pred=reference["y_pred"],
-                        y_true=reference["y_true"],
-                        timestamp_column_name="timestamp",
-                        metrics=['rmse', 'rmsle'],
-                        tune_hyperparameters=False)
-    
     create_psi_plot(feature_columns, reference, analysis)
 
+# def check_estimate_performance(reference : pd.DataFrame, analysis : pd.DataFrame, parameters : Dict[str, Any]):
+    
+#     reference = create_timestamp_column(reference, 
+#                                         column_name_year="YrSold", 
+#                                         column_name_month="MoSold")
+    
+#     analysis = create_timestamp_column(analysis, 
+#                                        column_name_year="YrSold", 
+#                                        column_name_month="MoSold")
+    
+#     feature_columns = parameters["most_important_features"]
 
+#     reference = reference[feature_columns + ["timestamp"]]
+#     analysis = analysis[feature_columns + ["timestamp"]]
+
+#     estimate_performance(reference,
+#                         analysis,
+#                         feature_column_names=feature_columns,
+#                         y_pred="y_pred",
+#                         y_true="y_true",
+#                         timestamp_column_name="timestamp",
+#                         metrics=['rmse', 'rmsle'],
+#                         tune_hyperparameters=False)
 
 def create_timestamp_column(df : pd.DataFrame, column_name_year : str, column_name_month : str) -> pd.DataFrame:
     """
