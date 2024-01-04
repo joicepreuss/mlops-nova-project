@@ -151,7 +151,7 @@ parso==0.8.3
 patsy==0.5.3
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==9.5.0
+Pillow==10.0.1
 pip-tools==6.13.0
 platformdirs==3.5.0
 plotly==5.14.1
