@@ -114,7 +114,7 @@ kedro==0.18.8
 kedro-mlflow==0.11.8
 kedro-viz==6.3.0
 kiwisolver==1.4.4
-lightgbm==3.3.5
+lightgbm==4.6.0
 llvmlite==0.40.0
 makefun==1.15.1
 Mako==1.2.4
